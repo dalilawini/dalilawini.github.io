@@ -27,8 +27,7 @@
       <div class="flow-node accent">ESP8266<small>Sensor Node</small></div>
       <div class="flow-arrow">→</div>
       <div class="flow-node">ESP-NOW<small>Wireless Telemetry</small></div>
-      <div class="flow-arrow">-------</div>
-      <a class="flow-node download" href="/assets/documents/altium.zip" download>Altium project<small>Click to download</small></a>    </div>
+    </div>
   </header>
 
   <!-- SYSTEM OVERVIEW -->
@@ -46,20 +45,20 @@
     <article class="architecture-card">
       <div class="card-label">DATA PATH</div>
       <div class="mermaid">
-flowchart LR
-    DHT["DHT11<br/>Temperature / Humidity"] -->|"GPIO13"| MCU["ESP8266<br/>Sensor Node"]
-    MCU -->|"JSON payload<br/>via ESP-NOW"| GW["ESP32<br/>Gateway"]
-    GW --> UI["LVGL<br/>Local Display"]
+        flowchart LR
+        DHT["DHT11<br />Temperature / Humidity"] -->|"GPIO13"| MCU["ESP8266<br />Sensor Node"]
+        MCU -->|"JSON payload<br />via ESP-NOW"| GW["ESP32<br />Gateway"]
+        GW --> UI["LVGL<br />Local Display"]
 
-    classDef sensor fill:#101d20,stroke:#3ecf9a,color:#e9fffa,stroke-width:1.5px;
-    classDef mcu fill:#122a2a,stroke:#3ecf9a,color:#ffffff,stroke-width:2px;
-    classDef gateway fill:#101d20,stroke:#6ee7d0,color:#e9fffa,stroke-width:1.5px;
-    classDef ui fill:#101d20,stroke:#78909c,color:#ffffff,stroke-width:1.5px;
+        classDef sensor fill:#101d20,stroke:#3ecf9a,color:#e9fffa,stroke-width:1.5px;
+        classDef mcu fill:#122a2a,stroke:#3ecf9a,color:#ffffff,stroke-width:2px;
+        classDef gateway fill:#101d20,stroke:#6ee7d0,color:#e9fffa,stroke-width:1.5px;
+        classDef ui fill:#101d20,stroke:#78909c,color:#ffffff,stroke-width:1.5px;
 
-    class DHT sensor;
-    class MCU mcu;
-    class GW gateway;
-    class UI ui;
+        class DHT sensor;
+        class MCU mcu;
+        class GW gateway;
+        class UI ui;
       </div>
     </article>
   </section>
@@ -78,29 +77,29 @@ flowchart LR
     <article class="diagram-card power-card">
       <div class="card-label">POWER DOMAIN</div>
       <div class="mermaid">
-flowchart LR
-    USB["USB / 5 V Input"] --> BMS["HT4928S<br/>Battery Management"]
-    BMS <--> BAT["Li-Ion<br/>Battery"]
+        flowchart LR
+        USB["USB / 5 V Input"] --> BMS["HT4928S<br />Battery Management"]
+        BMS <--> BAT["Li-Ion<br />Battery"]
 
-    BAT --> SW["Controlled<br/>Power Switch"]
-    BTN["Power Button"] --> SW
-    GPIO5["ESP8266 GPIO5"] --> SW
+          BMS --> SW["Controlled<br />Power Switch"]
+          BTN["Power Button"] --> SW
+          GPIO5["ESP8266 GPIO5"] --> SW
 
-    SW --> REG["AMS1117<br/>3.3 V Regulator"]
-    REG --> MCU["ESP8266"]
-    REG --> DHT["DHT11"]
+          SW --> REG["AMS1117<br />3.3 V Regulator"]
+          REG --> MCU["ESP8266"]
+          REG --> DHT["DHT11"]
 
-    classDef input fill:#151c20,stroke:#78909c,color:#fff;
-    classDef power fill:#172c29,stroke:#3ecf9a,color:#fff,stroke-width:2px;
-    classDef battery fill:#263126,stroke:#a8c66c,color:#fff,stroke-width:2px;
-    classDef control fill:#202027,stroke:#b9a7ff,color:#fff;
-    classDef load fill:#101d20,stroke:#3ecf9a,color:#fff;
+          classDef input fill:#151c20,stroke:#78909c,color:#fff;
+          classDef power fill:#172c29,stroke:#3ecf9a,color:#fff,stroke-width:2px;
+          classDef battery fill:#263126,stroke:#a8c66c,color:#fff,stroke-width:2px;
+          classDef control fill:#202027,stroke:#b9a7ff,color:#fff;
+          classDef load fill:#101d20,stroke:#3ecf9a,color:#fff;
 
-    class USB input;
-    class BMS,REG power;
-    class BAT battery;
-    class SW,BTN,GPIO5 control;
-    class MCU,DHT load;
+          class USB input;
+          class BMS,REG power;
+          class BAT battery;
+          class SW,BTN,GPIO5 control;
+          class MCU,DHT load;
       </div>
     </article>
 
@@ -124,7 +123,7 @@ flowchart LR
         </div>
         <p>
           Once the MCU has booted, <strong>GPIO5 continuously drives the transistor
-          control path</strong>, allowing the microcontroller to take ownership of
+            control path</strong>, allowing the microcontroller to take ownership of
           the power state. This creates a simple hardware/firmware interface for
           controlled shutdown.
         </p>
@@ -171,27 +170,27 @@ flowchart LR
     <article class="diagram-card">
       <div class="card-label">INTERFACE MAP</div>
       <div class="mermaid">
-flowchart TB
-    BMS["HT4928S<br/>BMS"] -->|"GPIO14 / GPIO16"| MCU["ESP8266"]
-    BAT["Li-Ion Battery"] -->|"Voltage sensing"| ADC["ADC"]
-    ADC --> MCU
-    DHT["DHT11"] -->|"GPIO13"| MCU
+        flowchart TB
+        BMS["HT4928S<br />BMS"] -->|"GPIO14 / GPIO16"| MCU["ESP8266"]
+        BAT["Li-Ion Battery"] -->|"Voltage sensing"| ADC["ADC"]
+        ADC --> MCU
+        DHT["DHT11"] -->|"GPIO13"| MCU
 
-    MCU -->|"GPIO5"| PWR["Power Switch"]
-    MCU -->|"GPIO4"| LED["Status LED"]
+        MCU -->|"GPIO5"| PWR["Power Switch"]
+        MCU -->|"GPIO4"| LED["Status LED"]
 
-    RESET["Reset Button"] --> MCU
-    UART["UART TX / RX<br/>Programming Header"] <--> MCU
+        RESET["Reset Button"] --> MCU
+        UART["UART TX / RX<br />Programming Header"] <--> MCU
 
-    classDef mcu fill:#122a2a,stroke:#3ecf9a,color:#fff,stroke-width:2px;
-    classDef peripheral fill:#111b1e,stroke:#78909c,color:#fff;
-    classDef power fill:#172c29,stroke:#3ecf9a,color:#fff;
-    classDef debug fill:#202027,stroke:#b9a7ff,color:#fff;
+          classDef mcu fill:#122a2a,stroke:#3ecf9a,color:#fff,stroke-width:2px;
+          classDef peripheral fill:#111b1e,stroke:#78909c,color:#fff;
+          classDef power fill:#172c29,stroke:#3ecf9a,color:#fff;
+          classDef debug fill:#202027,stroke:#b9a7ff,color:#fff;
 
-    class MCU mcu;
-    class BMS,BAT,DHT,ADC,LED peripheral;
-    class PWR power;
-    class RESET,UART debug;
+          class MCU mcu;
+          class BMS,BAT,DHT,ADC,LED peripheral;
+          class PWR power;
+          class RESET,UART debug;
       </div>
     </article>
 
@@ -364,14 +363,564 @@ flowchart TB
     </div>
     <div class="schematic-viewer">
 
-        <ngx-extended-pdf-viewer [src]="'/assets/documents/pcb_schematic.pdf'" [height]="'500px'"
-          [textLayer]="true" [showToolbar]="true" [showSidebarButton]="false" [showFindButton]="false"
-          [showPagingButtons]="true" [showZoomButtons]="true" [showPresentationModeButton]="true"
-          [showDownloadButton]="true" [showPrintButton]="false" [showOpenFileButton]="false"
-          [showPropertiesButton]="false" [zoom]="'page-width'">
-        </ngx-extended-pdf-viewer>
+      <ngx-extended-pdf-viewer [src]="'/assets/documents/pcb_schematic.pdf'" [height]="'500px'" [textLayer]="true"
+        [showToolbar]="true" [showSidebarButton]="false" [showFindButton]="false" [showPagingButtons]="true"
+        [showZoomButtons]="true" [showPresentationModeButton]="true" [showDownloadButton]="true"
+        [showPrintButton]="false" [showOpenFileButton]="false" [showPropertiesButton]="false" [zoom]="'page-width'">
+      </ngx-extended-pdf-viewer>
+    </div>
+  </section>
+</article>
+<!-- PCB FABRICATION -->
+<article class="weather-pcb">
+
+  <!-- HERO -->
+  <header class="pcb-hero">
+    <div class="hero-copy">
+      <p class="eyebrow">PCB DESIGN & FABRICATION</p>
+      <h1>From PCB Design to Physical Board</h1>
+      <p class="lead">
+        A complete desktop PCB fabrication workflow transforming the Altium PCB design
+        into manufacturing toolpaths and finally into a physical FR-4 board using
+        FlatCAM, Universal Gcode Sender and a CNC 3018 Pro.
+      </p>
+
+      <div class="tech-pills">
+        <span>Altium Designer</span>
+        <span>Gerber</span>
+        <span>FlatCAM</span>
+        <span>G-code</span>
+        <span>UGS</span>
+        <span>CNC 3018 Pro</span>
+        <span>FR-4</span>
+      </div>
+    </div>
+
+    <div class="hero-flow">
+      <a class="flow-node download" href="/assets/documents/altium.zip" download>
+        Altium
+        <small>PCB Design:Click to download</small>
+      </a>
+      <div class="flow-arrow">→</div>
+
+      <a class="flow-node download" href="/assets/documents/gerber.zip" download>
+        Gerber
+        <small>.gbr:Click to download</small>
+      </a>
+      <div class="flow-arrow">→</div>
+
+      <a class="flow-node download" href="/assets/documents/flatcam.zip" download>
+        FlatCAM
+        <small>Toolpath Generation:Click to download</small>
+      </a>
+    </div>
+  </header>
+
+
+  <!-- FABRICATION WORKFLOW -->
+  <section class="pcb-section">
+
+    <div class="section-heading">
+      <p class="eyebrow">01 / FABRICATION WORKFLOW</p>
+
+      <h2>Design-to-manufacturing pipeline</h2>
+
+      <p>
+        The PCB moves through a sequence of design, manufacturing-data preparation
+        and CNC machining stages. Each tool has a specific role in transforming
+        the electronic design into physical board geometry.
+      </p>
+    </div>
+
+    <article class="architecture-card">
+
+      <div class="card-label">PCB FABRICATION FLOW</div>
+
+      <div class="mermaid">
+        flowchart LR
+
+        CAD["Altium Designer<br />PCB Design"]
+        --> GERBER["Gerber Files<br />.gbr"]
+
+        GERBER
+        --> FC["FlatCAM<br />Manufacturing Preparation"]
+
+        FC
+        --> NC["G-code<br />.nc"]
+
+        NC
+        --> UGS["Universal Gcode Sender<br />Machine Control"]
+
+        UGS
+        --> CNC["CNC 3018 Pro<br />PCB Milling"]
+
+        CNC
+        --> PCB["FR-4 PCB<br />Physical Board"]
+
+        classDef design fill:#122a2a,stroke:#3ecf9a,color:#fff,stroke-width:2px;
+        classDef file fill:#111b1e,stroke:#78909c,color:#fff;
+        classDef software fill:#172c29,stroke:#3ecf9a,color:#fff;
+        classDef machine fill:#202027,stroke:#b9a7ff,color:#fff;
+        classDef board fill:#263126,stroke:#a8c66c,color:#fff,stroke-width:2px;
+
+        class CAD design;
+        class GERBER,NC file;
+        class FC,UGS software;
+        class CNC machine;
+        class PCB board;
+      </div>
+
+    </article>
+
+  </section>
+
+
+  <!-- TOOLCHAIN -->
+  <section class="pcb-section">
+
+    <div class="section-heading">
+      <p class="eyebrow">02 / TOOLCHAIN</p>
+
+      <h2>Each tool has a dedicated manufacturing role</h2>
+
+      <p>
+        The fabrication process separates PCB design from manufacturing preparation
+        and machine execution. This creates a clear chain from the original PCB
+        layout to the CNC toolpath.
+      </p>
+    </div>
+
+
+    <div class="feature-grid">
+
+      <article class="feature-card featured">
+
+        <span class="feature-index">01</span>
+
+        <h3>Altium Designer</h3>
+
+        <p>
+          The PCB is designed in Altium Designer, where the electrical connections,
+          component placement and board layout are defined before manufacturing
+          data is generated.
+        </p>
+        <div class="signal-row">
+
+          <div class="signal-list">
+            <div>
+              <code>PCB</code>
+              <span>Board layout</span>
+            </div>
+
+            <div>
+              <code>DESIGN</code>
+              <span>Electrical design</span>
+            </div>
+
+            <div>
+              <code>OUTPUT</code>
+              <span>Gerber manufacturing files</span>
+            </div>
+          </div>
+          <a class="download-icon" href="https://www.altium.com/" download aria-label="Download file">
+            <img src="assets/images/altium.jpg" alt="" width="384" height="192">
+          </a>
+        </div>
+
+      </article>
+
+
+      <article class="feature-card">
+
+        <span class="feature-index">02</span>
+
+        <h3>Gerber generation</h3>
+
+        <p>
+          The PCB design is exported from Altium into Gerber manufacturing files.
+          These files describe the board geometry required by the fabrication
+          workflow.
+        </p>
+
+        <div class="sequence-row">
+          <div class="sequence">
+            <span>PCB DESIGN</span>
+            <b>→</b>
+            <span>GERBER</span>
+            <b>→</b>
+            <span>MANUFACTURING DATA</span>
+          </div>
+          <a class="download-icon" href="https://winder.github.io/ugs_website/download/" download aria-label="Download file">
+            <img src="assets/images/universal_gcode.png" alt="" width="384" height="192">
+          </a>
+        </div>
+      </article>
+
+
+      <article class="feature-card">
+
+        <span class="feature-index">03</span>
+
+        <h3>FlatCAM</h3>
+        <div class="sequence-row">
+
+          <p>
+            Gerber files are imported into FlatCAM to prepare the geometry for CNC
+            manufacturing. The PCB geometry is converted into machining toolpaths
+            suitable for generating G-code.
+          </p>
+          <a class="download-icon" href="/assets/archive/flatcam_soft.zip" download aria-label="Download file">
+            <img src="assets/images/flatcam.jpg" alt="" width="384" height="192">
+          </a>
+        </div>
+      </article>
+
+    </div>
+
+  </section>
+
+
+  <!-- MANUFACTURING DATA -->
+  <section class="pcb-section">
+
+    <div class="section-heading">
+
+      <p class="eyebrow">03 / MANUFACTURING DATA</p>
+
+      <h2>From Gerber geometry to G-code</h2>
+
+      <p>
+        FlatCAM acts as the manufacturing-data preparation stage between the PCB
+        design files and the CNC machine. The resulting toolpaths are exported
+        as NC G-code files.
+      </p>
+
+    </div>
+
+
+    <article class="diagram-card">
+
+      <div class="card-label">DATA TRANSFORMATION</div>
+
+      <div class="mermaid">
+        flowchart TB
+
+        A["Altium PCB Layout"]
+        --> B["Gerber<br />.gbr"]
+
+        B
+        --> C["FlatCAM"]
+
+        C
+        --> D["PCB Geometry"]
+
+        D
+        --> E["CNC Toolpath"]
+
+        E
+        --> F["G-code<br />.nc"]
+
+        classDef source fill:#122a2a,stroke:#3ecf9a,color:#fff,stroke-width:2px;
+        classDef format fill:#111b1e,stroke:#78909c,color:#fff;
+        classDef process fill:#172c29,stroke:#3ecf9a,color:#fff;
+        classDef output fill:#202027,stroke:#b9a7ff,color:#fff;
+
+        class A source;
+        class B,F format;
+        class C,D,E process;
+      </div>
+
+    </article>
+
+
+    <div class="interface-grid">
+
+      <article class="interface-card">
+
+        <div class="interface-top">
+          <code>.gbr</code>
+          <span class="status-dot"></span>
+        </div>
+
+        <h3>Gerber file</h3>
+
+        <p>
+          Manufacturing geometry exported from the PCB design environment and
+          imported into FlatCAM.
+        </p>
+
+      </article>
+
+
+      <article class="interface-card">
+
+        <div class="interface-top">
+          <code>FlatCAM</code>
+          <span class="status-dot"></span>
+        </div>
+
+        <h3>Toolpath preparation</h3>
+
+        <p>
+          Converts PCB geometry into machining operations suitable for CNC
+          fabrication.
+        </p>
+
+      </article>
+
+
+      <article class="interface-card">
+
+        <div class="interface-top">
+          <code>.nc</code>
+          <span class="status-dot"></span>
+        </div>
+
+        <h3>G-code output</h3>
+
+        <p>
+          CNC instructions generated by FlatCAM and prepared for machine execution
+          through Universal Gcode Sender.
+        </p>
+
+      </article>
+
+
+      <article class="interface-card">
+
+        <div class="interface-top">
+          <code>UGS</code>
+          <span class="status-dot"></span>
+        </div>
+
+        <h3>Machine interface</h3>
+
+        <p>
+          Universal Gcode Sender loads the generated NC file and sends the machining
+          commands to the CNC controller.
+        </p>
+
+      </article>
+
+    </div>
+
+  </section>
+
+
+  <!-- CNC MACHINING -->
+  <section class="pcb-section">
+
+    <div class="section-heading">
+
+      <p class="eyebrow">04 / CNC FABRICATION</p>
+
+      <h2>PCB milling with CNC 3018 Pro</h2>
+
+      <p>
+        The generated NC file is loaded into Universal Gcode Sender and executed
+        by the CNC 3018 Pro. The machine physically mills the PCB geometry on
+        the FR-4 material.
+      </p>
+
+    </div>
+
+
+    <article class="architecture-card">
+
+      <div class="card-label">MACHINE EXECUTION</div>
+
+      <div class="mermaid">
+        flowchart LR
+
+        NC["G-code<br />.nc"]
+        --> UGS["Universal<br />Gcode Sender"]
+
+        UGS
+        --> CTRL["CNC Controller"]
+
+        CTRL
+        --> CNC["CNC 3018 Pro"]
+
+        CNC
+        --> MILL["PCB Milling"]
+
+        MILL
+        --> FR4["FR-4<br />Finished PCB"]
+
+        classDef file fill:#111b1e,stroke:#78909c,color:#fff;
+        classDef software fill:#172c29,stroke:#3ecf9a,color:#fff;
+        classDef controller fill:#202027,stroke:#b9a7ff,color:#fff;
+        classDef machine fill:#122a2a,stroke:#3ecf9a,color:#fff,stroke-width:2px;
+        classDef board fill:#263126,stroke:#a8c66c,color:#fff,stroke-width:2px;
+
+        class NC file;
+        class UGS software;
+        class CTRL controller;
+        class CNC,MILL machine;
+        class FR4 board;
+      </div>
+
+    </article>
+
+
+    <div class="interaction-layout">
+
+      <article class="interaction-card">
+
+        <div class="interaction-number">A</div>
+
+        <div>
+          <h3>Load G-code</h3>
+
+          <p>
+            The generated <strong>.nc</strong> file is loaded into Universal Gcode
+            Sender as the machine-executable manufacturing program.
+          </p>
+        </div>
+
+      </article>
+
+
+      <article class="interaction-card">
+
+        <div class="interaction-number">B</div>
+
+        <div>
+          <h3>Machine preparation</h3>
+
+          <p>
+            The CNC 3018 Pro is prepared for the PCB milling operation before
+            starting the machining sequence.
+          </p>
+        </div>
+
+      </article>
+
+
+      <article class="interaction-card">
+
+        <div class="interaction-number">C</div>
+
+        <div>
+          <h3>CNC milling</h3>
+
+          <p>
+            The CNC machine follows the generated toolpath to physically mill
+            the PCB geometry into the FR-4 board material.
+          </p>
+        </div>
+
+      </article>
+
+
+      <article class="interaction-card">
+
+        <div class="interaction-number">D</div>
+
+        <div>
+          <h3>Physical PCB</h3>
+
+          <p>
+            The machining process transforms the digital manufacturing data into
+            a physical PCB ready for the next assembly and testing stages.
+          </p>
+        </div>
+
+      </article>
+
+    </div>
+
+  </section>
+
+
+  <!-- COMPLETE PIPELINE -->
+  <section class="pcb-section final-section">
+
+    <div class="section-heading">
+
+      <p class="eyebrow">05 / COMPLETE FABRICATION PIPELINE</p>
+
+      <h2>From digital design to physical hardware</h2>
+
+      <p>
+        The complete workflow creates a direct manufacturing chain between the
+        PCB design environment and the physical embedded hardware.
+      </p>
+
+    </div>
+
+
+    <article class="end-to-end">
+
+      <div class="e2e-step">
+        <span>01</span>
+        <strong>DESIGN</strong>
+        <small>Altium Designer</small>
+      </div>
+
+      <div class="e2e-line"></div>
+
+      <div class="e2e-step">
+        <span>02</span>
+        <strong>EXPORT</strong>
+        <small>Gerber .gbr</small>
+      </div>
+
+      <div class="e2e-line"></div>
+
+      <div class="e2e-step">
+        <span>03</span>
+        <strong>PREPARE</strong>
+        <small>FlatCAM</small>
+      </div>
+
+      <div class="e2e-line"></div>
+
+      <div class="e2e-step">
+        <span>04</span>
+        <strong>GENERATE</strong>
+        <small>G-code .nc</small>
+      </div>
+
+      <div class="e2e-line"></div>
+
+      <div class="e2e-step">
+        <span>05</span>
+        <strong>MILL</strong>
+        <small>CNC 3018 Pro</small>
+      </div>
+
+      <div class="e2e-line"></div>
+
+      <div class="e2e-step">
+        <span>06</span>
+        <strong>FABRICATE</strong>
+        <small>FR-4 PCB</small>
+      </div>
+
+    </article>
+
+
+    <div class="engineering-note">
+
+      <span class="note-icon">⌁</span>
+
+      <div>
+
+        <strong>Engineering focus</strong>
+
+        <p>
+          This workflow demonstrates the complete transition from electronic PCB
+          design to physical hardware. Altium defines the board, Gerber files
+          carry the manufacturing geometry, FlatCAM generates CNC toolpaths,
+          Universal Gcode Sender handles machine execution, and the CNC 3018 Pro
+          performs the physical PCB milling.
+        </p>
 
       </div>
+
+    </div>
+
   </section>
 
 </article>

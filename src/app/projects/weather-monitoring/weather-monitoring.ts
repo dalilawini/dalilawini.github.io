@@ -24,8 +24,9 @@ export class WeatherMonitoringComponent implements AfterViewInit {
 
     async ngAfterViewInit(): Promise<void> {
         // Query from the component's own host element rather than a single
-        // #projectContentHost template ref, since this template has more
-        // than one .project-content block (hardware + software sections).
+        // template ref, since this template has more than one top-level
+        // article (hardware + PCB fabrication), each with its own .mermaid
+        // diagrams.
         await renderMermaidDiagrams(this.elementRef.nativeElement);
     }
 }

@@ -6,6 +6,9 @@
 /out-tsc
 /bazel-out
 
+#password and credential 
+.env.deploy
+
 # Node
 /node_modules
 npm-debug.log
@@ -42,3 +45,9 @@ __screenshots__/
 .DS_Store
 Thumbs.db
 node_modules
+
+# Large local-only files (too big for GitHub / FTP deploy)
+/large-files
+
+# Any env file variant
+.env*
