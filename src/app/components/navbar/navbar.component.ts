@@ -43,7 +43,8 @@ import { PROFILE, UI } from '../../data/profile.data';
     `,
     styles: [`
         .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; height: var(--nav-h); border-bottom: 1px solid transparent; transition: background .3s, border-color .3s }
-        .nav.scrolled, .nav.menu-open { background: rgba(11, 13, 14, .82); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom-color: var(--line) }
+        .nav.scrolled { background: rgba(11, 13, 14, .82); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom-color: var(--line) }
+        .nav.menu-open { background: var(--bg); border-bottom-color: var(--line) }
         .nav-inner { height: 100%; display: flex; align-items: center; gap: 24px }
         .logo { display: flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 14px }
         .logo-box { display: grid; place-items: center; width: 30px; height: 30px; border: 1.5px solid var(--accent); border-radius: 7px; color: var(--accent); font-weight: 500; font-size: 13px }
@@ -68,7 +69,7 @@ import { PROFILE, UI } from '../../data/profile.data';
 
         @media (max-width: 1020px) {
             .nav-links { position: fixed; top: var(--nav-h); left: 0; right: 0; flex-direction: column; gap: 0; padding: 8px 24px 18px;
-                background: rgba(11, 13, 14, .96); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--line);
+                background: var(--bg); border-bottom: 1px solid var(--line); box-shadow: 0 18px 40px rgba(0, 0, 0, .45);
                 transform: translateY(-8px); opacity: 0; visibility: hidden; transition: opacity .2s, transform .2s, visibility .2s }
             .nav-links.open { opacity: 1; transform: none; visibility: visible }
             .nav-links a { padding: 12px 0; font-size: 16px; border-bottom: 1px solid var(--line) }

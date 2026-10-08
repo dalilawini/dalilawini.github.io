@@ -573,7 +573,7 @@
 }
  
 .download-icon:focus-visible {
-  outline: 3px solid #1e1b4b;
+  outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
 
@@ -612,5 +612,19 @@
 @media (max-width: 800px) {
   .split {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Small screens: let the tool-logo rows wrap instead of widening the page */
+@media (max-width: 640px) {
+  .signal-row,
+  .sequence-row {
+    flex-wrap: wrap;
+  }
+
+  .download-icon img {
+    width: 100%;
+    max-width: 192px;
+    height: auto;
   }
 }

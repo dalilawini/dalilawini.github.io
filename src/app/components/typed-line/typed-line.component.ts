@@ -10,7 +10,7 @@ import { Component, DestroyRef, ElementRef, NgZone, afterNextRender, effect, inj
     host: { 'aria-live': 'polite' },
     styles: [`
         :host { display: block; font-family: var(--mono); font-size: 15px; color: var(--text); min-height: 1.6em }
-        .prompt { color: var(--accent) }
+        .prompt { color: var(--accent); margin-right: 1ch }
         .caret { display: inline-block; width: 8px; height: 1.05em; margin-left: 2px; vertical-align: -2px; background: var(--accent); animation: blink 1s steps(1) infinite }
         @keyframes blink { 50% { opacity: 0 } }
         @media (prefers-reduced-motion: reduce) { .caret { animation: none } }

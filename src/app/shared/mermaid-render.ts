@@ -44,6 +44,15 @@ export async function renderMermaidDiagrams(container: HTMLElement): Promise<voi
             const { svg, bindFunctions } = await mermaid.render(`project-diagram-${diagramId++}`, source);
             diagram.innerHTML = svg;
             bindFunctions?.(diagram);
+
+            // Mermaid sizes the SVG to 100% of its box, which shrinks wide flowcharts
+            // to an unreadable size on phones. Keep a minimum width so the
+            // (overflow-x: auto) container scrolls instead.
+            const rendered = diagram.querySelector('svg');
+            const naturalWidth = rendered?.viewBox.baseVal?.width ?? 0;
+            if (rendered && naturalWidth > 0) {
+                rendered.style.minWidth = `${Math.round(Math.min(naturalWidth, 640))}px`;
+            }
         } catch (error) {
             diagram.removeAttribute('data-mermaid-rendered');
             console.error('Unable to render Mermaid diagram.', error);
