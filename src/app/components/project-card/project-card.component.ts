@@ -1,55 +1,75 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { LanguageService } from '../../core/language.service';
+import { UI } from '../../data/profile.data';
 import { Project } from '../../models/project.model';
 
 @Component({
     selector: 'app-project-card',
     imports: [RouterLink],
     template: `
-        <article class="project" [class.featured]="project.featured" [class.no-image]="!project.imageUrl">
-            @if (project.imageUrl) {
-                <div class="visual">
-                    <img [src]="project.imageUrl" [alt]="project.title + ' project image'" loading="lazy">
-                </div>
+        @let p = project();
+        <article class="project" [class.linked]="p.hasDetail">
+            @if (p.imageUrl) {
+                <div class="thumb"><img [src]="p.imageUrl" alt="" loading="lazy"></div>
             }
-            <div class="copy">
-                <p class="eyebrow">{{ project.featured ? 'Featured system' : 'Engineering project' }}</p>
-                <h3><a class="card-link" [routerLink]="['/projects', project.slug]">{{ project.title }}</a></h3>
-                <p>{{ project.description }}</p>
-                <div class="tags">
-                    @for (tag of project.tags; track tag) {
-                        <span>{{ tag }}</span>
-                    }
-                </div>
-                @if (project.github) {
-                    <div class="actions">
-                        <a [href]="project.github" target="_blank" rel="noopener">GitHub ↗</a>
-                    </div>
+            <div class="head">
+                <p class="p-meta">{{ i18n.t(p.meta) }}</p>
+                <span class="p-num" aria-hidden="true">{{ number() }}</span>
+            </div>
+            <h3>
+                @if (p.hasDetail) {
+                    <a class="card-link" [routerLink]="['/projects', p.slug]">{{ i18n.t(p.title) }}</a>
+                } @else {
+                    {{ i18n.t(p.title) }}
+                }
+            </h3>
+            <p class="desc">{{ i18n.t(p.description) }}</p>
+            <div class="tags">
+                @for (tag of p.tags; track tag) {
+                    <span>{{ tag }}</span>
                 }
             </div>
+            @if (p.hasDetail || p.github) {
+                <div class="links">
+                    @if (p.hasDetail) {
+                        <span class="p-link" aria-hidden="true">{{ i18n.t(ui.project.caseStudy) }}</span>
+                    }
+                    @if (p.github) {
+                        <a class="p-link gh" [href]="p.github" target="_blank" rel="noopener">{{ i18n.t(ui.project.github) }}</a>
+                    }
+                </div>
+            }
         </article>
     `,
     styles: [`
-        .project { border: 1px solid #25373b; background: #0d191c; display: grid; grid-template-columns: 190px 1fr; min-height: 230px; position: relative; transition: border-color .2s, transform .2s }
-        .project:hover { border-color: #3ecf9a; transform: translateY(-2px) }
-        .project:has(.card-link:focus-visible) { outline: 2px solid #3ecf9a; outline-offset: 3px }
-        .project.featured { grid-column: 1 / -1; grid-template-columns: minmax(270px, .85fr) 1.15fr }
-        .project.no-image { grid-template-columns: 1fr; min-height: 0 }
-        .card-link { color: inherit; outline: none }
-        .card-link::after { content: ''; position: absolute; inset: 0; z-index: 1 }
-        .visual { background: linear-gradient(135deg, #11282a, #0a1417); padding: 22px; display: flex; flex-direction: column; justify-content: end; gap: 9px; border-right: 1px solid #25373b; position: relative; overflow: hidden }
-        .visual:before { content: ''; position: absolute; inset: 16px; background: linear-gradient(90deg, transparent 49%, #3ecf9a33 50%, transparent 51%), linear-gradient(transparent 49%, #3ecf9a33 50%, transparent 51%); background-size: 34px 34px }
-        .visual > * { position: relative }
-        .visual img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover }
-        .copy { padding: 28px }
-        .copy h3 { margin: 5px 0 11px; font-size: 1.2rem }
-        .copy > p:not(.eyebrow) { color: #b2c2bd; line-height: 1.65; font-size: .9rem; margin: 0 }
-        .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 19px 0 }
-        .tags span { font: 10px monospace; color: #a9c9be; padding: 5px 7px; background: #132428; border: 1px solid #244147 }
-        .actions { display: flex; gap: 16px; font-size: .78rem; font-weight: 700; color: #3ecf9a; position: relative; z-index: 2 }
-        @media(max-width: 650px) { .project, .project.featured { grid-template-columns: 1fr } .visual { min-height: 145px; border-right: 0; border-bottom: 1px solid #25373b } }
+        :host { display: block }
+        .project { position: relative; height: 100%; display: flex; flex-direction: column; gap: 10px; padding: 22px; border: 1px solid var(--line-2); border-radius: var(--radius); background: var(--card); transition: transform .25s, border-color .25s, box-shadow .25s }
+        .project:hover { border-color: var(--line-3); box-shadow: 0 16px 36px rgba(0,0,0,.35) }
+        .project.linked:hover { transform: translateY(-4px); border-color: var(--accent) }
+        .project:has(.card-link:focus-visible) { outline: 2px solid var(--accent); outline-offset: 3px }
+        .thumb { margin: -22px -22px 6px; aspect-ratio: 16 / 8; overflow: hidden; border-radius: var(--radius) var(--radius) 0 0; border-bottom: 1px solid var(--line-2); background: #0d1012 }
+        .thumb img { display: block; width: 100%; height: 100%; object-fit: cover }
+        .head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px }
+        .p-num { flex-shrink: 0; margin-top: -4px; font-family: var(--mono); font-size: 34px; font-weight: 500; line-height: 1; color: transparent; -webkit-text-stroke: 1px #2f383c }
+        .p-meta { margin: 0; font-family: var(--mono); font-size: 12px; color: var(--accent) }
+        h3 { margin: 0; font-size: 19px; font-weight: 600; line-height: 1.3 }
+        .card-link { outline: none }
+        .card-link::after { content: ''; position: absolute; inset: 0; z-index: 1; border-radius: inherit }
+        .desc { margin: 0; color: var(--muted); font-size: 14.5px; line-height: 1.65 }
+        .tags { margin-top: auto; padding-top: 8px }
+        .links { display: flex; flex-wrap: wrap; gap: 18px }
+        .p-link { font-family: var(--mono); font-size: 13px; color: var(--accent) }
+        .gh { position: relative; z-index: 2 }
+        .gh:hover { text-decoration: underline }
+        @media (max-width: 640px) { .project { padding: 20px 18px } .thumb { margin: -20px -18px 6px } }
+        @media (prefers-reduced-motion: reduce) { .project.linked:hover { transform: none } }
     `]
 })
 export class ProjectCardComponent {
-    @Input({ required: true }) project!: Project;
+    readonly project = input.required<Project>();
+    /** Display index, e.g. "04". */
+    readonly number = input('');
+    protected readonly i18n = inject(LanguageService);
+    protected readonly ui = UI;
 }

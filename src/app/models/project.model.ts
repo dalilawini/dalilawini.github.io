@@ -1,8 +1,17 @@
+import { L10n, Text } from '../core/i18n';
+
+export type ProjectCategory = 'pro' | 'perso';
+
 export interface Project {
     slug: string;
-    title: string;
-    description: string;
+    category: ProjectCategory;
+    /** Small mono line above the title, e.g. "ACTIA · Renault · 2021 — 2023". */
+    meta: Text;
+    title: L10n;
+    description: L10n;
     tags: string[];
+    /** False for professional work that has no public case-study page. */
+    hasDetail: boolean;
     featured?: boolean;
     github?: string;
     tutoUrl?: string;
