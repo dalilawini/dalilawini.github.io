@@ -1,0 +1,118 @@
+.installer {
+    max-width: 860px;
+    margin: 0 auto;
+    padding-top: 150px !important
+}
+
+h1 {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    line-height: 1.1;
+    margin: 0 0 18px
+}
+
+.lede {
+    color: #b2c2bd;
+    line-height: 1.7;
+    max-width: 640px;
+    margin: 0 0 36px
+}
+
+.panel {
+    border: 1px solid #25373b;
+    background: #0d191c;
+    padding: 30px
+}
+
+.button {
+    border: 1px solid #355047;
+    padding: 12px 17px;
+    font: inherit;
+    font-size: .78rem;
+    font-weight: 700;
+    color: #d9e7e2;
+    background: none;
+    cursor: pointer
+}
+
+.button.primary {
+    color: #06130f;
+    background: #3ecf9a;
+    border-color: #3ecf9a
+}
+
+.button.primary:hover {
+    background: #5be0ae
+}
+
+.notice {
+    margin: 0;
+    padding: 14px 16px;
+    border-left: 2px solid #b9a7ff;
+    background: rgba(185, 167, 255, .08);
+    color: #d9e7e2;
+    line-height: 1.6;
+    font-size: .9rem
+}
+
+.hint {
+    margin: 22px 0 0;
+    color: #91a8a1;
+    font-size: .85rem;
+    line-height: 1.6
+}
+
+.hint strong,
+.notice strong {
+    color: #e8f3ef
+}
+
+.steps {
+    margin: 30px 0 0;
+    padding-left: 20px;
+    color: #b2c2bd;
+    line-height: 1.9;
+    font-size: .9rem
+}
+
+.back {
+    display: inline-block;
+    margin: 0 0 22px;
+    color: #91a8a1;
+    font-size: .82rem
+}
+
+.back:hover {
+    color: #3ecf9a
+}
+
+.notice+.lede {
+    margin-top: 22px
+}
+
+.project-list {
+    display: grid;
+    gap: 12px
+}
+
+.project-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 24px;
+    border: 1px solid #25373b;
+    background: #0d191c;
+    transition: border-color .2s, transform .2s
+}
+
+.project-link:hover {
+    border-color: #3ecf9a;
+    transform: translateY(-2px)
+}
+
+.project-link span {
+    color: #3ecf9a;
+    font-size: .8rem;
+    font-weight: 700;
+    white-space: nowrap
+}

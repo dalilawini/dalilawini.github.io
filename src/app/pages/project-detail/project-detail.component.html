@@ -32,7 +32,7 @@
         @case ('weather-monitoring') {
             <section class="placeholder">
                 @defer (on viewport) {
-                    <app-weather-monitoring />
+                    <app-weather-monitoring [project]="project" />
                 } @placeholder {
                     <p>Loading case study…</p>
                 }

@@ -1,9 +1,12 @@
 # Angular SPA routing: send all non-file requests to index.html
 AddType application/javascript .mjs
+AddType application/octet-stream .bin
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
   RewriteRule ^index\.html$ - [L]
+  # Firmware/data files must 404 when missing, never fall back to index.html
+  RewriteRule \.(json|bin)$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule . /index.html [L]

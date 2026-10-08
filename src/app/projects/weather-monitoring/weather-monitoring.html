@@ -371,6 +371,9 @@
     </div>
   </section>
 </article>
+<!-- FIRMWARE INSTALLER -->
+<app-firmware-card [project]="project" />
+
 <!-- PCB FABRICATION -->
 <article class="weather-pcb">
 
@@ -598,46 +601,43 @@
     </div>
 
 
-    <article class="diagram-card">
+    <div class="split">
 
-  <div class="card-label">DATA TRANSFORMATION</div>
+      <article class="diagram-card split-left">
+        <div class="card-label">FLATCAM PREPARATION</div>
+        <div class="split-img">
+          <img src="assets/images/flatcam.jpg" alt="FlatCAM">
+        </div>
+        <div class="split-img">
+          <img src="assets/images/flatcam.jpg" alt="FlatCAM">
+        </div>
+        <div class="split-img">
+          <img src="assets/images/flatcam.jpg" alt="FlatCAM">
+        </div>
+      </article>
 
-  <div class="split">
+      <article class="diagram-card split-right">
+        <div class="card-label">DATA TRANSFORMATION</div>
+        <div class="mermaid">
+          flowchart TB
+          A["Altium PCB Layout"] --> B["Gerber<br />.gbr"]
+          B --> C["FlatCAM"]
+          C --> D["PCB Geometry"]
+          D --> E["CNC Toolpath"]
+          E --> F["G-code<br />.nc"]
 
-    <div class="split-left">
-      <div class="split-img">
-        <img src="assets/images/flatcam.jpg" alt="FlatCAM">
-      </div>
-      <div class="split-img">
-        <img src="assets/images/flatcam.jpg" alt="FlatCAM">
-      </div>
-      <div class="split-img">
-        <img src="assets/images/flatcam.jpg" alt="FlatCAM">
-      </div>
+          classDef source fill:#122a2a,stroke:#3ecf9a,color:#fff,stroke-width:2px;
+          classDef format fill:#111b1e,stroke:#78909c,color:#fff;
+          classDef process fill:#172c29,stroke:#3ecf9a,color:#fff;
+          classDef output fill:#202027,stroke:#b9a7ff,color:#fff;
+
+          class A source;
+          class B,F format;
+          class C,D,E process;
+        </div>
+      </article>
+
     </div>
-
-    <div class="split-right">
-      <div class="mermaid">
-        flowchart TB
-        A["Altium PCB Layout"] --> B["Gerber<br />.gbr"]
-        B --> C["FlatCAM"]
-        C --> D["PCB Geometry"]
-        D --> E["CNC Toolpath"]
-        E --> F["G-code<br />.nc"]
-
-        classDef source fill:#122a2a,stroke:#3ecf9a,color:#fff,stroke-width:2px;
-        classDef format fill:#111b1e,stroke:#78909c,color:#fff;
-        classDef process fill:#172c29,stroke:#3ecf9a,color:#fff;
-        classDef output fill:#202027,stroke:#b9a7ff,color:#fff;
-
-        class A source;
-        class B,F format;
-        class C,D,E process;
-      </div>
-    </div>
-
-  </div>
-</article>
 
 
     <div class="interface-grid">

@@ -21,6 +21,18 @@ export const routes: Routes = [
     },
 
     {
+        path: 'installer',
+        loadComponent: () => import('./pages/web-installer/web-installer.component').then(m => m.WebInstallerComponent),
+        title: 'ESP Web Installer | Mohamed Ali Lawini'
+    },
+
+    {
+        path: 'installer/:slug',
+        loadComponent: () => import('./pages/web-installer/web-installer.component').then(m => m.WebInstallerComponent),
+        title: route => `Install ${PROJECTS.find(p => p.slug === route.paramMap.get('slug'))?.title ?? 'firmware'} | Mohamed Ali Lawini`
+    },
+
+    {
         path: '**',
         redirectTo: ''
     }

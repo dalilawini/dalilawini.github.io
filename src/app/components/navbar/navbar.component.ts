@@ -18,6 +18,7 @@ import { RouterLink } from '@angular/router';
                 <a routerLink="/" fragment="projects" (click)="open = false">Projects</a>
                 <a routerLink="/" fragment="skills" (click)="open = false">Skills</a>
                 <a routerLink="/" fragment="contact" (click)="open = false">Contact</a>
+                <a routerLink="/installer" (click)="open = false">Installer</a>
                 <a href="https://github.com/dalilawini" target="_blank" rel="noopener">GitHub ↗</a>
                 <a class="cv" href="assets/documents/Mohamed-Ali-Lawini-CV.pdf" download>Download CV</a>
             </nav>

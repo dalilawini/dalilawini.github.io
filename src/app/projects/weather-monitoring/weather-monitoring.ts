@@ -1,17 +1,21 @@
 import {
     AfterViewInit,
     Component,
-    ElementRef
+    ElementRef,
+    Input
 } from '@angular/core';
 
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { renderMermaidDiagrams } from '../../shared/mermaid-render';
+import { FirmwareCardComponent } from '../../components/firmware-card/firmware-card.component';
+import { Project } from '../../models/project.model';
 
 @Component({
     selector: 'app-weather-monitoring',
     standalone: true,
     imports: [
-        NgxExtendedPdfViewerModule
+        NgxExtendedPdfViewerModule,
+        FirmwareCardComponent
     ],
     templateUrl: './weather-monitoring.html',
     styleUrl: './weather-monitoring.css',
@@ -19,6 +23,8 @@ import { renderMermaidDiagrams } from '../../shared/mermaid-render';
     preserveWhitespaces: true
 })
 export class WeatherMonitoringComponent implements AfterViewInit {
+
+    @Input({ required: true }) project!: Project;
 
     constructor(private elementRef: ElementRef<HTMLElement>) {}
 
