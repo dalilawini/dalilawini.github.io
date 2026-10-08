@@ -50,8 +50,8 @@
         MCU -->|"JSON payload<br />via ESP-NOW"| GW["ESP32<br />Gateway"]
         GW --> UI["LVGL<br />Local Display"]
 
-        classDef sensor fill:#101d20,stroke:#3ecf9a,color:#e9fffa,stroke-width:1.5px;
-        classDef mcu fill:#122a2a,stroke:#3ecf9a,color:#ffffff,stroke-width:2px;
+        classDef sensor fill:#101d20,stroke:#3ee6b0,color:#e9fffa,stroke-width:1.5px;
+        classDef mcu fill:#122a2a,stroke:#3ee6b0,color:#ffffff,stroke-width:2px;
         classDef gateway fill:#101d20,stroke:#6ee7d0,color:#e9fffa,stroke-width:1.5px;
         classDef ui fill:#101d20,stroke:#78909c,color:#ffffff,stroke-width:1.5px;
 
@@ -90,10 +90,10 @@
           REG --> DHT["DHT11"]
 
           classDef input fill:#151c20,stroke:#78909c,color:#fff;
-          classDef power fill:#172c29,stroke:#3ecf9a,color:#fff,stroke-width:2px;
+          classDef power fill:#172c29,stroke:#3ee6b0,color:#fff,stroke-width:2px;
           classDef battery fill:#263126,stroke:#a8c66c,color:#fff,stroke-width:2px;
           classDef control fill:#202027,stroke:#b9a7ff,color:#fff;
-          classDef load fill:#101d20,stroke:#3ecf9a,color:#fff;
+          classDef load fill:#101d20,stroke:#3ee6b0,color:#fff;
 
           class USB input;
           class BMS,REG power;
@@ -182,9 +182,9 @@
         RESET["Reset Button"] --> MCU
         UART["UART TX / RX<br />Programming Header"] <--> MCU
 
-          classDef mcu fill:#122a2a,stroke:#3ecf9a,color:#fff,stroke-width:2px;
+          classDef mcu fill:#122a2a,stroke:#3ee6b0,color:#fff,stroke-width:2px;
           classDef peripheral fill:#111b1e,stroke:#78909c,color:#fff;
-          classDef power fill:#172c29,stroke:#3ecf9a,color:#fff;
+          classDef power fill:#172c29,stroke:#3ee6b0,color:#fff;
           classDef debug fill:#202027,stroke:#b9a7ff,color:#fff;
 
           class MCU mcu;
@@ -460,9 +460,9 @@
         CNC
         --> PCB["FR-4 PCB<br />Physical Board"]
 
-        classDef design fill:#122a2a,stroke:#3ecf9a,color:#fff,stroke-width:2px;
+        classDef design fill:#122a2a,stroke:#3ee6b0,color:#fff,stroke-width:2px;
         classDef file fill:#111b1e,stroke:#78909c,color:#fff;
-        classDef software fill:#172c29,stroke:#3ecf9a,color:#fff;
+        classDef software fill:#172c29,stroke:#3ee6b0,color:#fff;
         classDef machine fill:#202027,stroke:#b9a7ff,color:#fff;
         classDef board fill:#263126,stroke:#a8c66c,color:#fff,stroke-width:2px;
 
@@ -626,9 +626,9 @@
           D --> E["CNC Toolpath"]
           E --> F["G-code<br />.nc"]
 
-          classDef source fill:#122a2a,stroke:#3ecf9a,color:#fff,stroke-width:2px;
+          classDef source fill:#122a2a,stroke:#3ee6b0,color:#fff,stroke-width:2px;
           classDef format fill:#111b1e,stroke:#78909c,color:#fff;
-          classDef process fill:#172c29,stroke:#3ecf9a,color:#fff;
+          classDef process fill:#172c29,stroke:#3ee6b0,color:#fff;
           classDef output fill:#202027,stroke:#b9a7ff,color:#fff;
 
           class A source;
@@ -755,9 +755,9 @@
         --> FR4["FR-4<br />Finished PCB"]
 
         classDef file fill:#111b1e,stroke:#78909c,color:#fff;
-        classDef software fill:#172c29,stroke:#3ecf9a,color:#fff;
+        classDef software fill:#172c29,stroke:#3ee6b0,color:#fff;
         classDef controller fill:#202027,stroke:#b9a7ff,color:#fff;
-        classDef machine fill:#122a2a,stroke:#3ecf9a,color:#fff,stroke-width:2px;
+        classDef machine fill:#122a2a,stroke:#3ee6b0,color:#fff,stroke-width:2px;
         classDef board fill:#263126,stroke:#a8c66c,color:#fff,stroke-width:2px;
 
         class NC file;

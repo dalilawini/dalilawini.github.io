@@ -1,60 +1,66 @@
-@if (project) {
-    <section class="detail-hero">
-        <a routerLink="/" fragment="projects">← Back to projects</a>
-        <p class="eyebrow">ENGINEERING CASE STUDY</p>
-        <h1>{{ project.title }}</h1>
-        <p>{{ project.description }}</p>
+@if (project(); as project) {
+    <section class="detail-hero wrap">
+        <a class="back" routerLink="/" fragment="projects">{{ i18n.t(text.back) }}</a>
+        <p class="eyebrow">{{ i18n.t(text.eyebrow) }}</p>
+        <p class="meta">{{ i18n.t(project.meta) }}</p>
+        <h1>{{ i18n.t(project.title) }}</h1>
+        <p class="lead">{{ i18n.t(project.description) }}</p>
         <div class="tags">
             @for (tag of project.tags; track tag) {
                 <span>{{ tag }}</span>
             }
         </div>
         @if (project.github) {
-            <a class="github" [href]="project.github" target="_blank" rel="noopener">View source on GitHub ↗</a>
+            <a class="btn btn-primary github" [href]="project.github" target="_blank" rel="noopener">{{ i18n.t(text.github) }}</a>
         }
     </section>
 
-    <section class="media-panel">
-        <span>DEMO</span>
-        @if (videoEmbedUrl) {
-            <h2>Project demonstration</h2>
-            <div class="video-frame">
-                <iframe [src]="videoEmbedUrl" [title]="project.title + ' demonstration'"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen></iframe>
-            </div>
-        } @else {
-            <h2>Video coming soon</h2>
-        }
+    <section class="wrap">
+        <div class="media-panel card">
+            <p class="label">{{ i18n.t(text.demo) }}</p>
+            @if (videoEmbedUrl(); as url) {
+                <h2>{{ i18n.t(text.demoTitle) }}</h2>
+                <div class="video-frame">
+                    <iframe [src]="url" [title]="i18n.t(project.title) + ' — ' + i18n.t(text.demoTitle)"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+                </div>
+            } @else {
+                <h2>{{ i18n.t(text.soon) }}</h2>
+            }
+        </div>
     </section>
 
     @switch (project.slug) {
         @case ('weather-monitoring') {
-            <section class="media-panel">
+            <section class="case-study wrap">
                 @defer (on viewport) {
                     <app-weather-monitoring [project]="project" />
                 } @placeholder {
-                    <p>Loading case study…</p>
+                    <p class="loading">{{ i18n.t(text.loading) }}</p>
                 }
             </section>
         }
     }
 
-    <section class="demo">
-        <p class="eyebrow">TUTORIAL</p>
-        @if (tutoEmbedUrl) {
-            <h2>All steps</h2>
-            <div class="video-frame">
-                <iframe [src]="tutoEmbedUrl" [title]="project.title + ' tutorial'"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen></iframe>
-            </div>
-        } @else {
-            <h2>Video coming soon</h2>
-        }
+    <section class="wrap">
+        <div class="media-panel card">
+            <p class="label">{{ i18n.t(text.tutorial) }}</p>
+            @if (tutoEmbedUrl(); as url) {
+                <h2>{{ i18n.t(text.tutorialTitle) }}</h2>
+                <div class="video-frame">
+                    <iframe [src]="url" [title]="i18n.t(project.title) + ' — ' + i18n.t(text.tutorialTitle)"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+                </div>
+            } @else {
+                <h2>{{ i18n.t(text.soon) }}</h2>
+            }
+        </div>
     </section>
 } @else {
-    <section class="missing">
-        <h1>Project not found</h1><a routerLink="/">Return home</a>
+    <section class="missing wrap">
+        <h1>{{ i18n.t(text.missing) }}</h1>
+        <a class="btn btn-ghost" routerLink="/">{{ i18n.t(text.home) }}</a>
     </section>
 }

@@ -1,55 +1,46 @@
-<section class="installer">
-    <p class="eyebrow">{{ project ? board : 'ESP' }} WEB INSTALLER</p>
+<section class="installer wrap">
+    <p class="eyebrow">{{ project() ? board() : 'ESP' }} {{ i18n.t(text.eyebrow) }}</p>
 
-    @if (project && manifestUrl) {
-        <a class="back" [routerLink]="['/projects', project.slug]">← Back to {{ project.title }}</a>
-        <h1>Flash <em>{{ project.title }}</em></h1>
-        <p class="lede">
-            Connect an {{ board }} over USB and install this project's firmware directly through Web Serial —
-            no Arduino IDE or drivers toolchain required.
-        </p>
+    @if (project(); as project) {
+        <a class="back" [routerLink]="['/projects', project.slug]">{{ i18n.t(text.back) }} {{ i18n.t(project.title) }}</a>
+        <h1>{{ i18n.t(text.flash) }} <span class="accent">{{ i18n.t(project.title) }}</span></h1>
+        <p class="lead">{{ fill(text.lead) }}</p>
 
-        <div class="panel">
-            <esp-web-install-button [attr.manifest]="manifestUrl">
-                <button slot="activate" class="button primary" type="button">Install firmware</button>
-                <p slot="unsupported" class="notice">
-                    Your browser doesn't support Web Serial. Please open this page in desktop <strong>Chrome</strong>
-                    or <strong>Edge</strong>.
-                </p>
-                <p slot="not-allowed" class="notice">
-                    Flashing is only allowed on a secure origin. This page must be served over <strong>HTTPS</strong>
-                    (or from localhost).
-                </p>
+        <div class="panel card">
+            <esp-web-install-button [attr.manifest]="manifestUrl()">
+                <button slot="activate" class="btn btn-primary" type="button">{{ i18n.t(text.install) }}</button>
+                <p slot="unsupported" class="notice">{{ i18n.t(text.unsupported) }}</p>
+                <p slot="not-allowed" class="notice">{{ i18n.t(text.notAllowed) }}</p>
             </esp-web-install-button>
 
             <p class="hint">
-                If flashing doesn't start, hold the <strong>{{ board === 'ESP8266' ? 'FLASH' : 'BOOT' }}</strong> button on the {{ board }} while clicking Install.
+                {{ i18n.t(text.hintBefore) }} <strong>{{ bootButton() }}</strong> {{ fill(text.hintAfter) }}
             </p>
         </div>
 
         <ol class="steps">
-            <li>Plug the {{ board }} into this computer with a data-capable USB cable.</li>
-            <li>Click <strong>Install firmware</strong> and pick the board's serial port.</li>
-            <li>Keep the tab open until the installer reports it's done.</li>
+            @for (step of i18n.list(text.steps); track $index) {
+                <li>{{ step.replace('{board}', board()) }}</li>
+            }
         </ol>
     } @else {
-        <h1>Flash firmware from your <em>browser.</em></h1>
-        @if (slug) {
-            <p class="notice">No installable firmware was found for “{{ slug }}”.</p>
+        <h1>{{ i18n.t(text.pickTitle) }} <span class="accent">{{ i18n.t(text.browser) }}</span></h1>
+        @if (slug()) {
+            <p class="notice">{{ fill(text.notFound) }}</p>
         }
-        <p class="lede">Pick a project to install its firmware on an ESP32 or ESP8266 over Web Serial.</p>
+        <p class="lead">{{ i18n.t(text.pick) }}</p>
 
         @if (installable.length) {
             <div class="project-list">
                 @for (p of installable; track p.slug) {
-                    <a class="project-link" [routerLink]="['/installer', p.slug]">
-                        <strong>{{ p.title }}</strong>
-                        <span>Open installer →</span>
+                    <a class="project-link card" [routerLink]="['/installer', p.slug]">
+                        <strong>{{ i18n.t(p.title) }}</strong>
+                        <span>{{ i18n.t(text.openInstaller) }}</span>
                     </a>
                 }
             </div>
         } @else {
-            <p class="notice">No projects ship firmware yet.</p>
+            <p class="notice">{{ i18n.t(text.none) }}</p>
         }
     }
 </section>

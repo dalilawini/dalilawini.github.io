@@ -1,190 +1,116 @@
 .detail-hero {
-    padding-top: 140px;
-    max-width: 880px
+    padding-top: calc(var(--nav-h) + 56px);
+    padding-bottom: 8px
 }
 
-.detail-hero>a {
-    font: 12px monospace;
-    color: #3ecf9a
+.back {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--muted);
+    transition: color .2s
 }
 
-.detail-hero .eyebrow {
-    margin-top: 45px
+.back:hover {
+    color: var(--accent)
 }
 
-.detail-hero h1 {
-    font-size: clamp(2.6rem, 6vw, 5.2rem);
-    letter-spacing: -.06em;
-    line-height: .95;
-    margin: 13px 0 22px
+.eyebrow {
+    margin: 40px 0 0;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: .14em;
+    color: var(--dim)
 }
 
-.detail-hero>p:not(.eyebrow) {
-    font-size: 1.05rem;
-    line-height: 1.7;
-    color: #a9bab4;
-    max-width: 750px
+.meta {
+    margin: 8px 0 0;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent)
+}
+
+h1 {
+    margin: 14px 0 20px;
+    max-width: 18em;
+    font-size: clamp(2.2rem, 5.5vw, 4rem);
+    line-height: 1.02;
+    font-weight: 700;
+    letter-spacing: -.025em
+}
+
+.lead {
+    margin: 0;
+    max-width: 44em;
+    color: var(--muted);
+    font-size: 17px;
+    line-height: 1.7
 }
 
 .tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 7px;
-    margin: 25px 0
-}
-
-.tags span {
-    font: 11px monospace;
-    color: #b4d0c5;
-    border: 1px solid #29453d;
-    padding: 6px
-}
-
-.github {
-    display: inline-block;
-    background: #3ecf9a !important;
-    color: #06130f !important;
-    padding: 12px 16px;
-    font-size: 16px !important;
-    font-weight: 700;
-    text-decoration: none;
+    margin: 24px 0
 }
 
 .media-panel {
-    min-height: 330px;
-    border: 1px solid #284139;
-    margin: 48px 6vw;
-    background: linear-gradient(135deg, #102727, #0b1518);
-    padding: 32px;
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
-    gap: 9px
+    margin-top: 56px;
+    padding: 28px
 }
 
-.media-panel span {
-    color: #3ecf9a;
-    font: 11px monospace
+.label {
+    margin: 0;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: .14em;
+    color: var(--accent)
 }
 
-.media-panel strong {
-    font-size: 1.4rem
-}
-
-.media-panel small {
-    color: #8fa39c
-}
-
-.content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px
-}
-
-.content article,
-.demo {
-    background: #0d191c;
-    border: 1px solid #263a36;
-    padding: 27px
-}
-
-.content h2,
-.demo h2 {
-    font-size: 1.3rem;
-    margin: 6px 0 15px
-}
-
-.content p:not(.eyebrow),
-.content li,
-.demo p:not(.eyebrow) {
-    color: #a9bbb4;
-    line-height: 1.7;
-    font-size: .9rem
-}
-
-.content ul,
-.content ol {
-    padding-left: 20px;
-    margin: 0
-}
-
-.content-status {
-    grid-column: 1 / -1;
-    color: #a9bbb4;
-    margin: 0
-}
-
-.demo {
-    background: #0d191c;
-    border: 1px solid #263a36;
-    padding: 27px;
-    max-width: 900px;
-    margin: 40px auto;
-    box-sizing: border-box;
+.media-panel h2 {
+    margin: 8px 0 18px;
+    font-size: clamp(1.4rem, 3vw, 1.8rem);
+    font-weight: 600
 }
 
 .video-frame {
-    position: relative;
     aspect-ratio: 16 / 9;
     overflow: hidden;
-    border: 1px solid #284139
+    border: 1px solid var(--line-2);
+    border-radius: 8px;
+    background: #000
 }
 
 .video-frame iframe {
+    display: block;
     width: 100%;
     height: 100%;
     border: 0
 }
 
+.case-study {
+    margin-top: 56px
+}
+
+.loading {
+    min-height: 200px;
+    color: var(--dim);
+    font-family: var(--mono);
+    font-size: 13px
+}
+
 .missing {
-    padding: 170px 6vw
+    min-height: 60vh;
+    padding-top: calc(var(--nav-h) + 80px)
 }
 
-.missing a {
-    color: #3ecf9a
+.missing h1 {
+    margin-bottom: 28px
 }
 
-@media(max-width:650px) {
-    .content {
-        grid-template-columns: 1fr
-    }
-
+@media (max-width: 640px) {
     .media-panel {
-        min-height: 230px
+        margin-top: 40px;
+        padding: 20px 16px
+    }
+
+    .case-study {
+        margin-top: 40px
     }
 }
-
-.schematic-section {
-    width: 100%;
-    margin: 80px auto;
-}
-
-.section-header {
-    text-align: center;
-    max-width: 850px;
-    margin: 0 auto 35px;
-}
-
-.section-header .eyebrow {
-    font-size: 0.75rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: #3ecf9a;
-    font-weight: 600;
-    margin-bottom: 10px;
-}
-
-.section-header h2 {
-    font-size: 2rem;
-    margin-bottom: 15px;
-}
-
-.section-description {
-    color: #9ca8a5;
-    line-height: 1.7;
-}
-
-// .schematic-viewer moved to weather-monitoring.css: it's only ever rendered
-// inside <app-weather-monitoring>, and (being plain, non ::ng-deep CSS) it
-// never actually reached that child component's DOM from here in the first
-// place — Angular's view encapsulation scopes it to this component only.

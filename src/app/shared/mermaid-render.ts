@@ -23,16 +23,16 @@ export async function renderMermaidDiagrams(container: HTMLElement): Promise<voi
         securityLevel: 'strict',
         theme: 'dark',
         themeVariables: {
-            background: '#0d191c',
-            primaryColor: '#102727',
-            primaryTextColor: '#e8f3ef',
-            primaryBorderColor: '#3e6257',
-            lineColor: '#78a897',
-            secondaryColor: '#0b1518',
-            tertiaryColor: '#132322',
-            textColor: '#e8f3ef',
-            edgeLabelBackground: '#0d191c',
-            fontFamily: 'ui-monospace, SFMono-Regular, Consolas, monospace'
+            background: '#131719',
+            primaryColor: '#16201f',
+            primaryTextColor: '#e9e7e2',
+            primaryBorderColor: '#3ee6b0',
+            lineColor: '#7d8a86',
+            secondaryColor: '#101315',
+            tertiaryColor: '#1a1f22',
+            textColor: '#e9e7e2',
+            edgeLabelBackground: '#131719',
+            fontFamily: '"JetBrains Mono", ui-monospace, SFMono-Regular, Consolas, monospace'
         }
     });
 
