@@ -1,7 +1,11 @@
-import { Routes } from '@angular/router';
+import { ResolveFn, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
-import { ProjectDetailComponent } from './pages/project-detail/project-detail.component';
-import { WeatherMonitoringComponent } from './projects/weather-monitoring/weather-monitoring';
+import { PROJECTS } from './data/projects.data';
+
+const projectTitle: ResolveFn<string> = route => {
+    const project = PROJECTS.find(p => p.slug === route.paramMap.get('slug'));
+    return `${project?.title ?? 'Project'} | Mohamed Ali Lawini`;
+};
 
 export const routes: Routes = [
     {
@@ -12,14 +16,8 @@ export const routes: Routes = [
 
     {
         path: 'projects/:slug',
-        component: ProjectDetailComponent,
-        title: 'Project | Mohamed Ali Lawini',
-        children: [
-            {
-                path: '',
-                component: WeatherMonitoringComponent
-            }
-        ]
+        loadComponent: () => import('./pages/project-detail/project-detail.component').then(m => m.ProjectDetailComponent),
+        title: projectTitle
     },
 
     {

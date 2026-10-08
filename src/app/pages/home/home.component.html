@@ -66,16 +66,26 @@
         <h2>Engineering case studies</h2>
         <p>Real systems, workflows and technical decisions — structured for deeper inspection.</p>
     </div>
-    <div class="projects"><app-project-card *ngFor="let project of projects" [project]="project" /></div>
+    <div class="projects">
+        @for (project of projects; track project.slug) {
+            <app-project-card [project]="project" />
+        }
+    </div>
 </section>
 <section id="skills" class="numbered-section">
     <p class="eyebrow"><span class="section-number"></span>TECHNICAL TOOLKIT</p>
     <h2>Built around systems, not buzzwords.</h2>
     <div class="skills">
-        <article *ngFor="let group of skillGroups">
-            <h3>{{group[0]}}</h3>
-            <div><span *ngFor="let skill of group[1]">{{skill}}</span></div>
-        </article>
+        @for (group of skillGroups; track group[0]) {
+            <article>
+                <h3>{{ group[0] }}</h3>
+                <div>
+                    @for (skill of group[1]; track skill) {
+                        <span>{{ skill }}</span>
+                    }
+                </div>
+            </article>
+        }
     </div>
 </section>
 <section class="credentials">
@@ -110,4 +120,4 @@
 </div>
 
 </section>
-<footer>© {{ 2026 }} Mohamed Ali Lawini · Embedded Software Engineer</footer>
+<footer>© {{ currentYear }} Mohamed Ali Lawini · Embedded Software Engineer</footer>

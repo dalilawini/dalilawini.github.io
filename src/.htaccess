@@ -17,8 +17,14 @@ AddType application/javascript .mjs
     Header set Expires "0"
   </FilesMatch>
 
-  # Hashed JS/CSS files can be cached for a long time
-  <FilesMatch "\.(js|css|woff2?|png|jpg|jpeg|svg|webp|ico|pdf)$">
+  # Hashed JS/CSS files (e.g. main-ABC123.js) can be cached forever
+  <FilesMatch "-[A-Z0-9]{8}\.(js|css)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # Unhashed assets (CV, images, archives) keep their names across deploys,
+  # so browsers must revalidate them to pick up new versions
+  <FilesMatch "\.(woff2?|png|jpg|jpeg|svg|webp|ico|pdf|zip)$">
+    Header set Cache-Control "public, max-age=86400, must-revalidate"
   </FilesMatch>
 </IfModule>

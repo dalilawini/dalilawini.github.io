@@ -363,7 +363,7 @@
     </div>
     <div class="schematic-viewer">
 
-      <ngx-extended-pdf-viewer [src]="'/assets/documents/pcb_schematic.pdf'" [height]="'500px'" [textLayer]="true"
+      <ngx-extended-pdf-viewer [src]="'assets/documents/pcb_schematic.pdf'" [height]="'500px'" [textLayer]="true"
         [showToolbar]="true" [showSidebarButton]="false" [showFindButton]="false" [showPagingButtons]="true"
         [showZoomButtons]="true" [showPresentationModeButton]="true" [showDownloadButton]="true"
         [showPrintButton]="false" [showOpenFileButton]="false" [showPropertiesButton]="false" [zoom]="'page-width'">
@@ -397,19 +397,19 @@
     </div>
 
     <div class="hero-flow">
-      <a class="flow-node download" href="/assets/documents/altium.zip" download>
+      <a class="flow-node download" href="assets/archive/altium.zip" download>
         Altium
         <small>PCB Design:Click to download</small>
       </a>
       <div class="flow-arrow">→</div>
 
-      <a class="flow-node download" href="/assets/documents/gerber.zip" download>
+      <a class="flow-node download" href="assets/archive/gerber.zip" download>
         Gerber
         <small>.gbr:Click to download</small>
       </a>
       <div class="flow-arrow">→</div>
 
-      <a class="flow-node download" href="/assets/documents/flatcam.zip" download>
+      <a class="flow-node download" href="assets/archive/flatcam.zip" download>
         FlatCAM
         <small>Toolpath Generation:Click to download</small>
       </a>
@@ -522,7 +522,7 @@
               <span>Gerber manufacturing files</span>
             </div>
           </div>
-          <a class="download-icon" href="https://www.altium.com/" download aria-label="Download file">
+          <a class="download-icon" href="https://www.altium.com/" target="_blank" rel="noopener" aria-label="Altium Designer website (opens in a new tab)">
             <img src="assets/images/altium.jpg" alt="" width="384" height="192">
           </a>
         </div>
@@ -550,7 +550,7 @@
             <b>→</b>
             <span>MANUFACTURING DATA</span>
           </div>
-          <a class="download-icon" href="https://winder.github.io/ugs_website/download/" download aria-label="Download file">
+          <a class="download-icon" href="https://winder.github.io/ugs_website/download/" target="_blank" rel="noopener" aria-label="Download Universal Gcode Sender (opens in a new tab)">
             <img src="assets/images/universal_gcode.png" alt="" width="384" height="192">
           </a>
         </div>
@@ -569,7 +569,7 @@
             manufacturing. The PCB geometry is converted into machining toolpaths
             suitable for generating G-code.
           </p>
-          <a class="download-icon" href="/assets/archive/flatcam_soft.zip" download aria-label="Download file">
+          <a class="download-icon" href="http://flatcam.org/download" target="_blank" rel="noopener" aria-label="Download FlatCAM (opens in a new tab)">
             <img src="assets/images/flatcam.jpg" alt="" width="384" height="192">
           </a>
         </div>
@@ -600,25 +600,30 @@
 
     <article class="diagram-card">
 
-      <div class="card-label">DATA TRANSFORMATION</div>
+  <div class="card-label">DATA TRANSFORMATION</div>
 
+  <div class="split">
+
+    <div class="split-left">
+      <div class="split-img">
+        <img src="assets/images/flatcam.jpg" alt="FlatCAM">
+      </div>
+      <div class="split-img">
+        <img src="assets/images/flatcam.jpg" alt="FlatCAM">
+      </div>
+      <div class="split-img">
+        <img src="assets/images/flatcam.jpg" alt="FlatCAM">
+      </div>
+    </div>
+
+    <div class="split-right">
       <div class="mermaid">
         flowchart TB
-
-        A["Altium PCB Layout"]
-        --> B["Gerber<br />.gbr"]
-
-        B
-        --> C["FlatCAM"]
-
-        C
-        --> D["PCB Geometry"]
-
-        D
-        --> E["CNC Toolpath"]
-
-        E
-        --> F["G-code<br />.nc"]
+        A["Altium PCB Layout"] --> B["Gerber<br />.gbr"]
+        B --> C["FlatCAM"]
+        C --> D["PCB Geometry"]
+        D --> E["CNC Toolpath"]
+        E --> F["G-code<br />.nc"]
 
         classDef source fill:#122a2a,stroke:#3ecf9a,color:#fff,stroke-width:2px;
         classDef format fill:#111b1e,stroke:#78909c,color:#fff;
@@ -629,8 +634,10 @@
         class B,F format;
         class C,D,E process;
       </div>
+    </div>
 
-    </article>
+  </div>
+</article>
 
 
     <div class="interface-grid">

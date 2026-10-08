@@ -529,7 +529,42 @@
     padding-left: 0;
     padding-right: 0;
   }
+.split {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: center;
+}
 
+.split-left {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  min-width: 0;
+}
+
+.split-img {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.split-img img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.split-right {
+  min-width: 0;
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 800px) {
+  .split {
+    grid-template-columns: 1fr;
+  }
+}
   .sequence {
     align-items: flex-start;
     flex-direction: column;

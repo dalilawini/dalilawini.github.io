@@ -13,7 +13,9 @@ try {
     host: process.env.FTP_HOST,
     user: process.env.FTP_USER,
     password: process.env.FTP_PASS,
-    secure: false,
+    // FTPS by default; set FTP_SECURE=false in .env.deploy only if the host lacks TLS
+    secure: process.env.FTP_SECURE !== "false",
+    secureOptions: { rejectUnauthorized: process.env.FTP_REJECT_UNAUTHORIZED !== "false" },
   });
   await client.ensureDir(REMOTE_DIR);
   await client.clearWorkingDir();
