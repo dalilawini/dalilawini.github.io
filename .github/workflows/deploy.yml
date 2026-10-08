@@ -1,0 +1,56 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - run: npx ng build --configuration production --base-href /embedded-portfolio/
+
+      - name: Locate build output and add SPA 404 fallback
+        id: out
+        run: |
+          INDEX=$(find dist -name index.html -path '*browser*' | head -n 1)
+          [ -z "$INDEX" ] && INDEX=$(find dist -name index.html | head -n 1)
+          [ -z "$INDEX" ] && { echo "No index.html found in dist/"; exit 1; }
+          DIR=$(dirname "$INDEX")
+          cp "$DIR/index.html" "$DIR/404.html"
+          touch "$DIR/.nojekyll"
+          echo "dir=$DIR" >> "$GITHUB_OUTPUT"
+          echo "Publishing $DIR"
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ steps.out.outputs.dir }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

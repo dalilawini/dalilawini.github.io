@@ -14,7 +14,7 @@
         }
     </section>
 
-    <section class="placeholder">
+    <section class="media-panel">
         <span>DEMO</span>
         @if (videoEmbedUrl) {
             <h2>Project demonstration</h2>
@@ -30,7 +30,7 @@
 
     @switch (project.slug) {
         @case ('weather-monitoring') {
-            <section class="placeholder">
+            <section class="media-panel">
                 @defer (on viewport) {
                     <app-weather-monitoring [project]="project" />
                 } @placeholder {

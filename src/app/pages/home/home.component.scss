@@ -1,3 +1,15 @@
+// Section container. The global main>section rule can't reach these
+// (they sit inside <app-home>), so the gutter is applied here.
+section {
+    padding: 90px 6vw
+}
+
+@media(max-width:650px) {
+    section {
+        padding: 70px 6vw
+    }
+}
+
 .hero {
     min-height: 610px;
     padding-top: 150px;
@@ -434,6 +446,10 @@ footer {
     .numbered-section>.eyebrow::before {
         font-size: 3.3rem
     }
+}
+
+.experience .timeline+.timeline {
+    margin-top: 24px
 }
 
 .experience .timeline {

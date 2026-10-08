@@ -50,7 +50,7 @@
     text-decoration: none;
 }
 
-.placeholder {
+.media-panel {
     min-height: 330px;
     border: 1px solid #284139;
     margin: 48px 6vw;
@@ -62,16 +62,16 @@
     gap: 9px
 }
 
-.placeholder span {
+.media-panel span {
     color: #3ecf9a;
     font: 11px monospace
 }
 
-.placeholder strong {
+.media-panel strong {
     font-size: 1.4rem
 }
 
-.placeholder small {
+.media-panel small {
     color: #8fa39c
 }
 
@@ -149,7 +149,7 @@
         grid-template-columns: 1fr
     }
 
-    .placeholder {
+    .media-panel {
         min-height: 230px
     }
 }

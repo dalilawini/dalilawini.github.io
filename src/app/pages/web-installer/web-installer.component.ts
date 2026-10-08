@@ -29,9 +29,10 @@ export class WebInstallerComponent {
         route.paramMap.pipe(takeUntilDestroyed()).subscribe(params => {
             this.slug = params.get('slug');
             this.project = this.installable.find(p => p.slug === this.slug);
-            // Absolute so it resolves the same from any route; the .bin paths
-            // inside the manifest are resolved relative to the manifest itself.
-            this.manifestUrl = this.project?.firmware ? '/' + this.project.firmware.replace(/^\//, '') : undefined;
+            // Resolve against <base href> so it works from any route and under a
+            // sub-path (GitHub Pages); .bin paths inside the manifest are
+            // resolved relative to the manifest itself.
+            this.manifestUrl = this.project?.firmware ? new URL(this.project.firmware, document.baseURI).href : undefined;
         });
     }
 }

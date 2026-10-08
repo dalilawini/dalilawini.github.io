@@ -6,15 +6,12 @@ import { Project } from '../../models/project.model';
     selector: 'app-project-card',
     imports: [RouterLink],
     template: `
-        <article class="project" [class.featured]="project.featured">
-            <div class="visual">
-                @if (project.imageUrl) {
+        <article class="project" [class.featured]="project.featured" [class.no-image]="!project.imageUrl">
+            @if (project.imageUrl) {
+                <div class="visual">
                     <img [src]="project.imageUrl" [alt]="project.title + ' project image'" loading="lazy">
-                } @else {
-                    <span>PROJECT EVIDENCE</span>
-                    <strong>{{ project.imageLabel }}</strong>
-                }
-            </div>
+                </div>
+            }
             <div class="copy">
                 <p class="eyebrow">{{ project.featured ? 'Featured system' : 'Engineering project' }}</p>
                 <h3><a class="card-link" [routerLink]="['/projects', project.slug]">{{ project.title }}</a></h3>
@@ -37,14 +34,13 @@ import { Project } from '../../models/project.model';
         .project:hover { border-color: #3ecf9a; transform: translateY(-2px) }
         .project:has(.card-link:focus-visible) { outline: 2px solid #3ecf9a; outline-offset: 3px }
         .project.featured { grid-column: 1 / -1; grid-template-columns: minmax(270px, .85fr) 1.15fr }
+        .project.no-image { grid-template-columns: 1fr; min-height: 0 }
         .card-link { color: inherit; outline: none }
         .card-link::after { content: ''; position: absolute; inset: 0; z-index: 1 }
         .visual { background: linear-gradient(135deg, #11282a, #0a1417); padding: 22px; display: flex; flex-direction: column; justify-content: end; gap: 9px; border-right: 1px solid #25373b; position: relative; overflow: hidden }
         .visual:before { content: ''; position: absolute; inset: 16px; background: linear-gradient(90deg, transparent 49%, #3ecf9a33 50%, transparent 51%), linear-gradient(transparent 49%, #3ecf9a33 50%, transparent 51%); background-size: 34px 34px }
         .visual > * { position: relative }
         .visual img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover }
-        .visual span { font: 10px monospace; color: #3ecf9a }
-        .visual strong { font-size: .88rem; line-height: 1.4 }
         .copy { padding: 28px }
         .copy h3 { margin: 5px 0 11px; font-size: 1.2rem }
         .copy > p:not(.eyebrow) { color: #b2c2bd; line-height: 1.65; font-size: .9rem; margin: 0 }
