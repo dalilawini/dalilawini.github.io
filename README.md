@@ -10,7 +10,7 @@ Personal portfolio website showcasing my work and hands-on experience in **embed
 ## 🌐 Live Portfolio
 
 **Website:**
-https://dalilawini.github.io/embedded-portfolio/
+https://dalilawini.github.io/
 
 ## 👨‍💻 About Me
 
@@ -218,7 +218,7 @@ The portfolio includes demonstrations and technical videos showing:
 ## 📂 Repository Structure
 
 ```text
-embedded-portfolio/
+dalilawini.github.io/
 │
 ├── src/
 │   ├── app/
@@ -265,7 +265,7 @@ dist/
 
 Embedded Software Engineer
 
-* 🌐 Portfolio: https://dalilawini.github.io/embedded-portfolio/
+* 🌐 Portfolio: https://dalilawini.github.io/
 * 💼 LinkedIn: https://www.linkedin.com/in/dalilawini/
 * 💻 GitHub: https://github.com/dalilawini/
 * 📧 Email: [Medalilawini@gmail.com](mailto:Medalilawini@gmail.com)

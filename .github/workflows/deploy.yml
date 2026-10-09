@@ -35,7 +35,7 @@ jobs:
         run: |
           curl -fsSL -o src/assets/firmware/weather-monitoring/weather-app.bin "https://github.com/dalilawini/weather-app/releases/download/${WEATHER_APP_VERSION}/weather-app.bin"
 
-      - run: npx ng build --configuration production --base-href /embedded-portfolio/
+      - run: npx ng build --configuration production --base-href /
 
       - name: Locate build output and add SPA 404 fallback
         id: out
