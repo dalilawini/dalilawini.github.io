@@ -51,3 +51,6 @@ node_modules
 
 # Any env file variant
 .env*
+
+# Firmware binaries are downloaded from GitHub Releases by the deploy workflow
+/src/assets/firmware/**/*.bin
