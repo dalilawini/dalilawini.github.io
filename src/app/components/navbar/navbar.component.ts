@@ -32,7 +32,7 @@ import { PROFILE, UI } from '../../data/profile.data';
                             @if (!last) { <span aria-hidden="true">/</span> }
                         }
                     </div>
-                    <a class="btn-cv" [href]="cv" download>{{ i18n.t(ui.cv) }}</a>
+                    <a class="btn-cv" [href]="i18n.t(cv)" download>{{ i18n.t(ui.cv) }}</a>
                     <button class="menu-btn" type="button" [attr.aria-label]="i18n.t(ui.nav.menu)" [attr.aria-expanded]="open()"
                         aria-controls="nav-links" (click)="open.set(!open())">
                         <span></span><span></span>

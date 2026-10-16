@@ -1,22 +1,24 @@
 import { Component, input, signal } from '@angular/core';
 
-/** Portrait framed as an IC package; falls back to a monogram when the photo is missing. */
+/**
+ * Portrait framed as an IC package. Shows the monogram by default and reveals the photo
+ * on hover / keyboard focus / tap; if the photo fails to load, only the monogram remains.
+ */
 @Component({
     selector: 'app-chip-portrait',
     template: `
-        <div class="chip">
+        <div class="chip" [attr.tabindex]="photoFailed() ? null : 0" [attr.aria-label]="photoFailed() ? null : name()">
             <div class="pins top"></div><div class="pins bottom"></div>
             <div class="pins left"></div><div class="pins right"></div>
             <div class="chip-body">
                 <span class="pin1"></span>
                 <div class="die">
+                    <div class="monogram" aria-hidden="true">
+                        <span>{{ monogram() }}</span>
+                        <small>ARM · CORTEX-M</small>
+                    </div>
                     @if (!photoFailed()) {
                         <img [src]="photo()" [alt]="name()" width="480" height="480" (error)="photoFailed.set(true)">
-                    } @else {
-                        <div class="monogram" aria-hidden="true">
-                            <span>{{ monogram() }}</span>
-                            <small>ARM · CORTEX-M</small>
-                        </div>
                     }
                 </div>
             </div>
@@ -30,11 +32,14 @@ import { Component, input, signal } from '@angular/core';
         .pins.top, .pins.bottom { left: 40px; right: 40px; height: 22px; background: repeating-linear-gradient(90deg, var(--pin) 0 7px, transparent 7px 17px) }
         .pins.left, .pins.right { top: 40px; bottom: 40px; width: 22px; background: repeating-linear-gradient(180deg, var(--pin) 0 7px, transparent 7px 17px) }
         .pins.top { top: 0 } .pins.bottom { bottom: 0 } .pins.left { left: 0 } .pins.right { right: 0 }
-        .chip:hover .pins { --pin: var(--accent); filter: drop-shadow(0 0 4px var(--accent)) }
+        .chip:hover .pins, .chip:focus-visible .pins, .chip:focus .pins { --pin: var(--accent); filter: drop-shadow(0 0 4px var(--accent)) }
+        .chip:focus { outline: none }
+        .chip:focus-visible .chip-body { outline: 2px solid var(--accent); outline-offset: 3px }
         .chip-body { position: absolute; inset: 20px; padding: 14px; border-radius: 12px; background: linear-gradient(145deg, #1d2225, #121618); border: 1px solid var(--line-2); box-shadow: 0 30px 60px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.04) }
         .pin1 { position: absolute; top: 10px; left: 10px; width: 9px; height: 9px; border-radius: 50%; background: #070909; box-shadow: inset 0 1px 2px rgba(255,255,255,.08); z-index: 2 }
         .die { position: relative; width: 100%; height: 100%; border-radius: 7px; overflow: hidden; background: #0d1012; border: 1px solid #262d31 }
-        .die img { display: block; width: 100%; height: 100%; object-fit: cover }
+        .die img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .45s ease }
+        .chip:hover .die img, .chip:focus .die img { opacity: 1 }
         .monogram { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; gap: 8px;
             background: linear-gradient(var(--accent-soft) 1px, transparent 1px) 0 0 / 22px 22px, linear-gradient(90deg, var(--accent-soft) 1px, transparent 1px) 0 0 / 22px 22px, radial-gradient(circle at 50% 40%, #182024, #0d1012 70%) }
         .monogram span { font-family: var(--display); font-weight: 700; font-size: clamp(3rem, 8vw, 4.6rem); letter-spacing: .04em; color: var(--text) }

@@ -6,8 +6,8 @@ export const PROFILE = {
     email: 'medalilawini@gmail.com',
     linkedin: 'https://www.linkedin.com/in/dalilawini/',
     github: 'https://github.com/dalilawini',
-    cv: 'assets/documents/Mohamed-Ali-Lawini-CV.pdf',
-    photo: 'assets/images/photo.jpg',
+    cv: { en: 'assets/documents/Mohamed-Ali-Lawini-CV-EN.pdf', fr: 'assets/documents/Mohamed-Ali-Lawini-CV-FR.pdf' } as L10n,
+    photo: 'assets/images/myPicture.jpeg',
     location: { en: 'Tunis, Tunisia', fr: 'Tunis, Tunisie' } as L10n
 };
 
@@ -152,7 +152,8 @@ export const UI = {
     },
     project: {
         caseStudy: { en: 'case study →', fr: 'étude de cas →' },
-        github: { en: 'github →', fr: 'github →' }
+        github: { en: 'github →', fr: 'github →' },
+        inProgress: { en: 'In progress', fr: 'En cours' }
     },
     cv: { en: 'CV ↓', fr: 'CV ↓' },
     footer: {

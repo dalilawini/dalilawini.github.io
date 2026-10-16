@@ -37,7 +37,7 @@ export class HomeComponent {
     protected readonly ui = UI;
 
     protected readonly filters: Filter[] = ['all', 'pro', 'perso'];
-    protected readonly filter = signal<Filter>('all');
+    protected readonly filter = signal<Filter>('pro');
 
     /** Projects with their fixed display number, so numbering doesn't shift when filtering. */
     protected readonly visibleProjects = computed(() => {

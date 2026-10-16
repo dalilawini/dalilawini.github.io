@@ -14,7 +14,12 @@ import { Project } from '../../models/project.model';
                 <div class="thumb"><img [src]="p.imageUrl" alt="" loading="lazy"></div>
             }
             <div class="head">
-                <p class="p-meta">{{ i18n.t(p.meta) }}</p>
+                <p class="p-meta">
+                    {{ i18n.t(p.meta) }}
+                    @if (p.inProgress) {
+                        <span class="badge">{{ i18n.t(ui.project.inProgress) }}</span>
+                    }
+                </p>
                 <span class="p-num" aria-hidden="true">{{ number() }}</span>
             </div>
             <h3>
@@ -53,6 +58,7 @@ import { Project } from '../../models/project.model';
         .head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px }
         .p-num { flex-shrink: 0; margin-top: -4px; font-family: var(--mono); font-size: 34px; font-weight: 500; line-height: 1; color: transparent; -webkit-text-stroke: 1px #2f383c }
         .p-meta { margin: 0; font-family: var(--mono); font-size: 12px; color: var(--accent) }
+        .badge { display: inline-block; margin-left: 8px; padding: 1px 8px; border: 1px dashed var(--line-3); border-radius: 999px; color: var(--muted); font-size: 11px; white-space: nowrap; vertical-align: 1px }
         h3 { margin: 0; font-size: 19px; font-weight: 600; line-height: 1.3 }
         .card-link { outline: none }
         .card-link::after { content: ''; position: absolute; inset: 0; z-index: 1; border-radius: inherit }
