@@ -1,0 +1,415 @@
+<article class="cs-article">
+
+  <!-- HERO -->
+  <header class="hardware-hero">
+    <div class="hero-copy">
+      <p class="eyebrow">FIRMWARE ARCHITECTURE</p>
+      <h1>ESP-NOW Three-Channel Lamp Relay Node</h1>
+      <p class="lead">
+        Firmware for an ESP8266 relay board that switches three lamps on command from
+        the IoT Network Gateway touchscreen. It pairs itself with the hub, only obeys
+        that hub, and restores every lamp after a power cut.
+      </p>
+
+      <div class="tech-pills">
+        <span>ESP8266</span>
+        <span>ESP-NOW</span>
+        <span>3 relays</span>
+        <span>SH1106 OLED</span>
+        <span>EEPROM</span>
+        <span>ArduinoJson</span>
+        <span>State machine</span>
+      </div>
+    </div>
+
+    <div class="hero-flow">
+      <div class="flow-node">Gateway<small>Lights screen tap</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node accent">ESP8266<small>Relay node</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">3 lamps<small>Relay outputs</small></div>
+    </div>
+  </header>
+
+  <!-- SYSTEM CONTEXT -->
+  <section class="hardware-section">
+    <div class="section-heading">
+      <p class="eyebrow">01 / SYSTEM CONTEXT</p>
+      <h2>One node of a small smart-home network</h2>
+      <p>
+        The hub does the talking and the nodes do the work. The light switch uses the
+        same architecture as the weather sensor node: a state machine, an event bus and
+        one service per peripheral.
+      </p>
+    </div>
+
+    <article class="architecture-card">
+      <div class="card-label">NETWORK</div>
+      <div class="mermaid">
+        flowchart LR
+        HUB["IoT Network Gateway<br />ESP32 + touchscreen"]
+        WX["weather-app<br />ESP8266 temp + humidity"]
+        LS["light-switch<br />ESP8266 + 3 relays"]
+        WX -->|"readings every 2 s"| HUB
+        LS -->|"announce every 60 s"| HUB
+        HUB -->|"set lamp on / off"| LS
+
+        classDef hub fill:#122a2a,stroke:#3ee6b0,color:#fff,stroke-width:2px;
+        classDef node fill:#101d20,stroke:#78909c,color:#fff;
+        classDef self fill:#202027,stroke:#b9a7ff,color:#fff,stroke-width:2px;
+
+        class HUB hub;
+        class WX node;
+        class LS self;
+      </div>
+    </article>
+  </section>
+
+  <!-- FIRMWARE ARCHITECTURE -->
+  <section class="hardware-section">
+    <div class="section-heading">
+      <p class="eyebrow">02 / FIRMWARE ARCHITECTURE</p>
+      <h2>A state machine driven from the main loop</h2>
+      <p>
+        <code>App</code> moves between a few explicit states. Each state does one thing
+        and hands over to the next, so pairing, announcing and command handling never
+        interleave.
+      </p>
+    </div>
+
+    <article class="diagram-card">
+      <div class="card-label">APP STATES</div>
+      <div class="mermaid">
+        stateDiagram-v2
+        [*] --> INIT
+        INIT --> APP_CONNECT: hub MAC stored
+        INIT --> APP_SCAN: no hub MAC yet
+        APP_SCAN --> APP_CONNECT: hub found, MAC saved
+        APP_CONNECT --> APP_ANNOUNCE
+        APP_ANNOUNCE --> APP_IDLE
+        APP_IDLE --> APP_HANDLE_COMMAND: command from hub
+        APP_HANDLE_COMMAND --> APP_IDLE
+        APP_IDLE --> APP_ANNOUNCE: every 60 s
+        APP_IDLE --> APP_SCAN: FLASH held 5 s
+      </div>
+    </article>
+
+    <div class="feature-grid">
+      <article class="feature-card featured">
+        <span class="feature-index">01</span>
+        <h3>Deferred command handling</h3>
+        <p>
+          The ESP-NOW receive callback runs inside the Wi-Fi stack, so it only checks
+          the sender and copies the packet into a buffer. The main loop picks it up in
+          <code>APP_HANDLE_COMMAND</code>, parses the JSON and drives the relays.
+        </p>
+        <div class="sequence">
+          <span>RECV_CB</span>
+          <b>→</b>
+          <span>COPY</span>
+          <b>→</b>
+          <span>PARSE</span>
+          <b>→</b>
+          <span>SWITCH</span>
+          <b>→</b>
+          <span>SAVE</span>
+          <b>→</b>
+          <span>PUBLISH</span>
+        </div>
+        <p>
+          Only a <strong>real state change</strong> is written to EEPROM and published
+          on the event bus, so a repeated command costs no flash write.
+        </p>
+      </article>
+
+      <article class="feature-card">
+        <span class="feature-index">02</span>
+        <h3>Event bus</h3>
+        <p>
+          A "lamp states changed" event carries a bit mask (bit n = lamp n+1). The OLED
+          and the serial logger subscribe to it and don't know about the radio or the relays.
+        </p>
+      </article>
+
+      <article class="feature-card">
+        <span class="feature-index">03</span>
+        <h3>Persistent state</h3>
+        <p>
+          The hub MAC and the lamp states live in a small EEPROM layout, so the board
+          comes back exactly as the hub's screen shows it.
+        </p>
+        <div class="signal-list">
+          <div><code>0–5</code><span>Hub MAC address</span></div>
+          <div><code>6</code><span>Relay mask</span></div>
+          <div><code>7</code><span>Magic byte 0xA5</span></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- PROTOCOL -->
+  <section class="hardware-section">
+    <div class="section-heading">
+      <p class="eyebrow">03 / PROTOCOL</p>
+      <h2>Small JSON over ESP-NOW</h2>
+      <p>
+        Messages follow the gateway's protocol: JSON text in one packet on channel 1.
+        The switch never replies. The hub relies on the radio-level acknowledgement to
+        know whether a command arrived.
+      </p>
+    </div>
+
+    <article class="diagram-card">
+      <div class="card-label">COMMAND SEQUENCE</div>
+      <div class="mermaid">
+        sequenceDiagram
+        actor You
+        participant Hub as Hub (Lights screen)
+        participant ESP as ESPNowService
+        participant App as App state machine
+        participant R as RelayService
+        participant Bus as Event bus
+
+        You->>Hub: Tap "Lamp 2"
+        Hub->>ESP: set ch 2 on (ESP-NOW)
+        ESP-->>Hub: radio ACK
+        Note over ESP: recv_cb only copies the packet
+        App->>ESP: pollCommand()
+        App->>R: set(2, on)
+        R->>R: drive relay pin
+        App->>App: save lamp states to EEPROM
+        App->>Bus: publish(lamp states)
+        Bus->>Bus: OLED + Serial logger update
+      </div>
+    </article>
+
+    <div class="interface-grid">
+      <article class="interface-card">
+        <div class="interface-top">
+          <code>&#123;"type": "switch", "ch": 3&#125;</code>
+          <span class="status-dot"></span>
+        </div>
+        <h3>Announce</h3>
+        <p>Sent right after connecting, then every 60 s, well inside the hub's 5-minute offline window.</p>
+      </article>
+
+      <article class="interface-card">
+        <div class="interface-top">
+          <code>&#123;"cmd": "set", "ch": 2, "on": true&#125;</code>
+          <span class="status-dot"></span>
+        </div>
+        <h3>Command</h3>
+        <p>Switches one lamp, or all three with <code>ch: 0</code>. Unknown channels and malformed JSON are ignored.</p>
+      </article>
+
+      <article class="interface-card">
+        <div class="interface-top">
+          <code>peer MAC</code>
+          <span class="status-dot"></span>
+        </div>
+        <h3>Only obeys its hub</h3>
+        <p>Packets from any MAC other than the paired hub are dropped in the receive callback.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- WIRING -->
+  <section class="hardware-section">
+    <div class="section-heading">
+      <p class="eyebrow">04 / WIRING</p>
+      <h2>NodeMCU / Wemos D1 mini pin map</h2>
+      <p>
+        The relays sit on D5–D7 so that GPIO 4 and 5 stay free for the OLED's I²C bus.
+        Relays are active LOW by default, which suits most relay modules.
+      </p>
+    </div>
+
+    <div class="interface-grid">
+      <article class="interface-card">
+        <div class="interface-top">
+          <code>D5 · GPIO14</code>
+          <span class="status-dot"></span>
+        </div>
+        <h3>Relay 1</h3>
+        <p>Lamp 1 output.</p>
+      </article>
+
+      <article class="interface-card">
+        <div class="interface-top">
+          <code>D6 · GPIO12</code>
+          <span class="status-dot"></span>
+        </div>
+        <h3>Relay 2</h3>
+        <p>Lamp 2 output.</p>
+      </article>
+
+      <article class="interface-card">
+        <div class="interface-top">
+          <code>D7 · GPIO13</code>
+          <span class="status-dot"></span>
+        </div>
+        <h3>Relay 3</h3>
+        <p>Lamp 3 output.</p>
+      </article>
+
+      <article class="interface-card">
+        <div class="interface-top">
+          <code>D2 / D1 · GPIO4 / 5</code>
+          <span class="status-dot"></span>
+        </div>
+        <h3>OLED (optional)</h3>
+        <p>SH1106 128×64 over I²C, showing the state of each lamp.</p>
+      </article>
+
+      <article class="interface-card">
+        <div class="interface-top">
+          <code>FLASH · GPIO0</code>
+          <span class="status-dot"></span>
+        </div>
+        <h3>Pair button</h3>
+        <p>Hold for 5 s while running to forget the hub and pair again.</p>
+      </article>
+
+      <article class="interface-card">
+        <div class="interface-top">
+          <code>D0 · GPIO16</code>
+          <span class="status-dot"></span>
+        </div>
+        <h3>Status LED</h3>
+        <p>Active-LOW indicator on the board.</p>
+      </article>
+    </div>
+
+    <div class="engineering-note">
+      <span class="note-icon">⚠</span>
+      <div>
+        <strong>Mains voltage</strong>
+        <p>
+          The lamp side of the relays carries 230 V / 110 V. Use a properly rated,
+          enclosed relay module and keep the low-voltage and mains wiring apart.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- RELIABILITY -->
+  <section class="hardware-section">
+    <div class="section-heading">
+      <p class="eyebrow">05 / PAIRING &amp; RELIABILITY</p>
+      <h2>Details that keep the lamps in sync</h2>
+    </div>
+
+    <div class="interaction-layout">
+      <article class="interaction-card">
+        <div class="interaction-number">A</div>
+        <div>
+          <h3>Self-pairing</h3>
+          <p>
+            With no hub stored, the board scans for an <code>ESP-NOW…</code> access
+            point, connects, saves the hub's MAC and switches to ESP-NOW. It then appears
+            in the hub's Devices list with a <strong>NEW</strong> badge.
+          </p>
+        </div>
+      </article>
+
+      <article class="interaction-card">
+        <div class="interaction-number">B</div>
+        <div>
+          <h3>Re-pairing</h3>
+          <p>
+            Holding FLASH for 5 s returns to the scan state. ESP-NOW is shut down and
+            started again with the new hub's MAC.
+          </p>
+        </div>
+      </article>
+
+      <article class="interaction-card">
+        <div class="interaction-number">C</div>
+        <div>
+          <h3>No flicker at boot</h3>
+          <p>
+            Each relay pin's level is written before the pin becomes an output, so a lamp
+            that was off stays off while the board starts.
+          </p>
+        </div>
+      </article>
+
+      <article class="interaction-card">
+        <div class="interaction-number">D</div>
+        <div>
+          <h3>Radio stays on channel 1</h3>
+          <p>
+            Wi-Fi auto-connect, auto-reconnect and modem sleep are disabled. A station
+            that reconnects in the background would hop channels and miss the hub's commands.
+          </p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- END-TO-END -->
+  <section class="hardware-section final-section">
+    <div class="section-heading">
+      <p class="eyebrow">06 / END-TO-END</p>
+      <h2>From a tap to a lamp</h2>
+      <p>
+        One tap on the gateway's Lights screen travels through the radio, the state
+        machine and the relay driver, and ends up saved and displayed on the node.
+      </p>
+    </div>
+
+    <article class="end-to-end">
+      <div class="e2e-step">
+        <span>01</span>
+        <strong>TAP</strong>
+        <small>Gateway Lights screen</small>
+      </div>
+      <div class="e2e-line"></div>
+      <div class="e2e-step">
+        <span>02</span>
+        <strong>SEND</strong>
+        <small>ESP-NOW + JSON</small>
+      </div>
+      <div class="e2e-line"></div>
+      <div class="e2e-step">
+        <span>03</span>
+        <strong>VERIFY</strong>
+        <small>Sender MAC</small>
+      </div>
+      <div class="e2e-line"></div>
+      <div class="e2e-step">
+        <span>04</span>
+        <strong>SWITCH</strong>
+        <small>Relay pins</small>
+      </div>
+      <div class="e2e-line"></div>
+      <div class="e2e-step">
+        <span>05</span>
+        <strong>PERSIST</strong>
+        <small>EEPROM mask</small>
+      </div>
+      <div class="e2e-line"></div>
+      <div class="e2e-step">
+        <span>06</span>
+        <strong>NOTIFY</strong>
+        <small>OLED + serial</small>
+      </div>
+    </article>
+
+    <div class="engineering-note">
+      <span class="note-icon">⌁</span>
+      <div>
+        <strong>Engineering focus</strong>
+        <p>
+          The node reuses the weather sensor's architecture, so a third device type is
+          mostly a new service plus a few states. Keeping radio callbacks minimal and
+          doing the work in the main loop avoids races between the Wi-Fi stack and the
+          relay, EEPROM and display code.
+        </p>
+      </div>
+    </div>
+  </section>
+</article>
+
+<!-- FIRMWARE INSTALLER (shown once the project has a firmware manifest) -->
+<app-firmware-card [project]="project" />

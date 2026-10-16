@@ -50,24 +50,40 @@ export const PROJECTS: Project[] = [
         hasDetail: true,
         featured: true,
         github: 'https://github.com/dalilawini/weather-app',
-        videoUrl: 'https://www.youtube.com/watch?v=bv47wcvvn9s',
-        tutoUrl: 'https://www.youtube.com/watch?v=IgHPfrBBY14',
-        imageUrl: 'assets/images/logo.webp',
+        videoUrl: 'https://www.youtube.com/watch?v=px7SQt1Efc0',
+        imageUrl: 'assets/images/pcb-3d.webp',
         firmware: 'assets/firmware/weather-monitoring/manifest.json',
         firmwareBoard: 'ESP8266'
     },
     {
-        slug: 'esp32-lvgl-gateway',
+        slug: 'iot-network-gateway',
         category: 'perso',
         meta: { en: 'Personal · IoT', fr: 'Personnel · IoT' },
-        title: { en: 'ESP32 LVGL Gateway', fr: 'Passerelle ESP32 LVGL' },
+        title: { en: 'ESP32 Smart-Home Gateway with LVGL Touchscreen', fr: 'Passerelle domotique ESP32 avec écran tactile LVGL' },
         description: {
-            en: 'An ESP32 gateway combining ESP-NOW sensor data with a touchscreen graphical interface.',
-            fr: 'Une passerelle ESP32 qui associe les données de capteurs ESP-NOW à une interface graphique tactile.'
+            en: 'An ESP32 touchscreen hub that collects weather data, switches lamps and pairs new devices over ESP-NOW, with no router or cloud. The UI is built with LVGL and EEZ Studio.',
+            fr: "Un hub ESP32 à écran tactile qui collecte les données météo, commande des lampes et appaire de nouveaux appareils en ESP-NOW, sans routeur ni cloud. L'interface est réalisée avec LVGL et EEZ Studio."
         },
-        tags: ['ESP32', 'LVGL', 'Touchscreen', 'ESP-NOW', 'Embedded GUI'],
+        tags: ['ESP32', 'ESP-NOW', 'LVGL', 'EEZ Studio', 'Touchscreen', 'NVS', 'C/C++'],
         hasDetail: true,
-        github: 'https://github.com/dalilawini/iot-network-gateway'
+        github: 'https://github.com/dalilawini/iot-network-gateway',
+        firmware: 'assets/firmware/iot-network-gateway/manifest.json',
+        firmwareBoard: 'ESP32'
+    },
+    {
+        slug: 'light-switch',
+        category: 'perso',
+        meta: { en: 'Personal · IoT', fr: 'Personnel · IoT' },
+        title: { en: 'ESP-NOW Three-Channel Light Switch', fr: 'Interrupteur ESP-NOW à trois canaux' },
+        description: {
+            en: 'ESP8266 relay-board firmware that switches three lamps on command from the gateway, pairs itself with the hub and restores lamp states after a power cut.',
+            fr: "Firmware d'une carte relais ESP8266 qui commande trois lampes depuis la passerelle, s'appaire seul avec le hub et restaure l'état des lampes après une coupure de courant."
+        },
+        tags: ['ESP8266', 'ESP-NOW', 'Relays', 'C++', 'Arduino', 'EEPROM', 'OLED'],
+        hasDetail: true,
+        github: 'https://github.com/dalilawini/light-switch',
+        firmware: 'assets/firmware/light-switch/manifest.json',
+        firmwareBoard: 'ESP8266'
     },
     {
         slug: 'custom-pcb',
@@ -79,8 +95,9 @@ export const PROJECTS: Project[] = [
             fr: "Conception et fabrication de PCB sur mesure pour des projets embarqués, couvrant tout le flux : schéma et routage, usinage CNC, assemblage et tests."
         },
         tags: ['Altium Designer', 'PCB Design', 'CNC 3018 Pro', 'FlatCAM', '3D Printing'],
-        hasDetail: true,
-        imageUrl: 'assets/images/pcb-3d.webp'
+        hasDetail: false,
+        inProgress: true,
+        imageUrl: 'assets/images/logo.webp',
     },
     {
         slug: 'javafx-gui-generator',
@@ -92,7 +109,9 @@ export const PROJECTS: Project[] = [
             fr: "Un outil de bureau inspiré des concepteurs d'IHM embarquées, pour créer des interfaces d'affichage et générer une sortie adaptée à l'embarqué."
         },
         tags: ['Java', 'JavaFX', 'GUI Generation', 'OLED', 'Code Generation'],
-        hasDetail: true
+        imageUrl: 'assets/images/logo.webp',
+        hasDetail: false,
+        inProgress: true
     },
     {
         slug: 'bluetooth-embedded',
@@ -104,7 +123,9 @@ export const PROJECTS: Project[] = [
             fr: "Un ensemble d'expérimentations et de prototypes autour du Bluetooth de l'ESP32, du Bluetooth HID, du nRF52832, des modules HM-10 / CC2541 et de la communication RF."
         },
         tags: ['ESP32 Bluetooth', 'Bluetooth HID', 'nRF52832', 'HM-10', 'RF'],
-        hasDetail: true
+        imageUrl: 'assets/images/logo.webp',
+        hasDetail: false,
+        inProgress: true
     }
 ];
 

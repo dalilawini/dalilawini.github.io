@@ -1,0 +1,11 @@
+{
+  "name": "IoT Network Gateway",
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        { "path": "iot-network-gateway.bin", "offset": 0 }
+      ]
+    }
+  ]
+}

@@ -35,6 +35,18 @@ jobs:
         run: |
           curl -fsSL -o src/assets/firmware/weather-monitoring/weather-app.bin "https://github.com/dalilawini/weather-app/releases/download/${WEATHER_APP_VERSION}/weather-app.bin"
 
+      - name: Fetch firmware from the iot-network-gateway release
+        env:
+          IOT_NETWORK_GATEWAY_VERSION: v1.0.0
+        run: |
+          curl -fsSL -o src/assets/firmware/iot-network-gateway/iot-network-gateway.bin "https://github.com/dalilawini/iot-network-gateway/releases/download/${IOT_NETWORK_GATEWAY_VERSION}/iot-network-gateway.bin"
+
+      - name: Fetch firmware from the light-switch release
+        env:
+          LIGHT_SWITCH_VERSION: v1.0.0
+        run: |
+          curl -fsSL -o src/assets/firmware/light-switch/light-switch.bin "https://github.com/dalilawini/light-switch/releases/download/${LIGHT_SWITCH_VERSION}/light-switch.bin"
+
       - run: npx ng build --configuration production --base-href /
 
       - name: Locate build output and add SPA 404 fallback

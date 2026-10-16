@@ -1,0 +1,36 @@
+/* Gateway-only additions; the shared case-study layout lives in ../case-study.css. */
+
+/* Hardware platform: download tiles (left) + board photo (right) */
+.board-card {
+  display: grid;
+  grid-template-columns: minmax(220px, .5fr) minmax(0, 1fr);
+  gap: 30px;
+  align-items: center;
+  padding-top: 48px;
+}
+
+.board-img img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  background: #fff;
+}
+
+@media (max-width: 800px) {
+  .board-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+.interface-grid + .schematic-viewer {
+  margin-top: 14px;
+}
+
+.status-card {
+  margin-top: 14px;
+}
+
+.interface-top code {
+  overflow-wrap: anywhere;
+}

@@ -18,12 +18,18 @@
     <section class="wrap">
         <div class="media-panel card">
             <p class="label">{{ i18n.t(text.demo) }}</p>
-            @if (videoEmbedUrl(); as url) {
+            @if (demo(); as media) {
                 <h2>{{ i18n.t(text.demoTitle) }}</h2>
                 <div class="video-frame">
-                    <iframe [src]="url" [title]="i18n.t(project.title) + ' — ' + i18n.t(text.demoTitle)"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowfullscreen></iframe>
+                    @if (media.kind === 'file') {
+                        <!-- Short demo clip: plays muted and loops, like a GIF -->
+                        <video [src]="media.url" [attr.poster]="media.poster" [muted]="true" autoplay loop playsinline controls
+                            preload="metadata" [attr.aria-label]="i18n.t(project.title) + ' — ' + i18n.t(text.demoTitle)"></video>
+                    } @else {
+                        <iframe [src]="media.url" [title]="i18n.t(project.title) + ' — ' + i18n.t(text.demoTitle)"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen></iframe>
+                    }
                 </div>
             } @else {
                 <h2>{{ i18n.t(text.soon) }}</h2>
@@ -41,17 +47,40 @@
                 }
             </section>
         }
+        @case ('iot-network-gateway') {
+            <section class="case-study wrap">
+                @defer (on viewport) {
+                    <app-iot-network-gateway [project]="project" />
+                } @placeholder {
+                    <p class="loading">{{ i18n.t(text.loading) }}</p>
+                }
+            </section>
+        }
+        @case ('light-switch') {
+            <section class="case-study wrap">
+                @defer (on viewport) {
+                    <app-light-switch [project]="project" />
+                } @placeholder {
+                    <p class="loading">{{ i18n.t(text.loading) }}</p>
+                }
+            </section>
+        }
     }
 
     <section class="wrap">
         <div class="media-panel card">
             <p class="label">{{ i18n.t(text.tutorial) }}</p>
-            @if (tutoEmbedUrl(); as url) {
+            @if (tutorial(); as media) {
                 <h2>{{ i18n.t(text.tutorialTitle) }}</h2>
                 <div class="video-frame">
-                    <iframe [src]="url" [title]="i18n.t(project.title) + ' — ' + i18n.t(text.tutorialTitle)"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowfullscreen></iframe>
+                    @if (media.kind === 'file') {
+                        <video [src]="media.url" [attr.poster]="media.poster" controls playsinline preload="metadata"
+                            [attr.aria-label]="i18n.t(project.title) + ' — ' + i18n.t(text.tutorialTitle)"></video>
+                    } @else {
+                        <iframe [src]="media.url" [title]="i18n.t(project.title) + ' — ' + i18n.t(text.tutorialTitle)"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen></iframe>
+                    }
                 </div>
             } @else {
                 <h2>{{ i18n.t(text.soon) }}</h2>

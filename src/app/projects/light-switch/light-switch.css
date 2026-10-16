@@ -1,0 +1,9 @@
+/* Light-switch-only additions; the shared case-study layout lives in ../case-study.css. */
+
+.diagram-card + .feature-grid {
+  margin-top: 14px;
+}
+
+.interface-top code {
+  overflow-wrap: anywhere;
+}
