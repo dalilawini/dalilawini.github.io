@@ -1,6 +1,17 @@
 let diagramId = 0;
 
 /**
+ * Angular parses the `<br />` in a node label as a real element, which
+ * `textContent` drops. Turn each one back into text so Mermaid still sees the
+ * line break.
+ */
+function diagramSource(diagram: HTMLElement): string {
+    const copy = diagram.cloneNode(true) as HTMLElement;
+    copy.querySelectorAll('br').forEach(br => br.replaceWith('<br/>'));
+    return copy.textContent?.trim() ?? '';
+}
+
+/**
  * Finds every not-yet-rendered `.mermaid` element inside `container` and
  * replaces its text content with the rendered SVG diagram.
  *
@@ -15,6 +26,10 @@ export async function renderMermaidDiagrams(container: HTMLElement): Promise<voi
     if (!diagrams.length) {
         return;
     }
+
+    // Claim them before the first await, so a nested component rendering the
+    // same diagrams at the same time skips them.
+    diagrams.forEach(diagram => diagram.dataset['mermaidRendered'] = 'true');
 
     const mermaid = (await import('mermaid')).default;
 
@@ -37,10 +52,8 @@ export async function renderMermaidDiagrams(container: HTMLElement): Promise<voi
     });
 
     for (const diagram of diagrams) {
-        diagram.dataset['mermaidRendered'] = 'true';
-
         try {
-            const source = diagram.textContent?.trim() ?? '';
+            const source = diagramSource(diagram);
             const { svg, bindFunctions } = await mermaid.render(`project-diagram-${diagramId++}`, source);
             diagram.innerHTML = svg;
             bindFunctions?.(diagram);

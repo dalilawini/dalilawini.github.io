@@ -8,6 +8,7 @@ import {
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { renderMermaidDiagrams } from '../../shared/mermaid-render';
 import { FirmwareCardComponent } from '../../components/firmware-card/firmware-card.component';
+import { PcbFabricationComponent } from '../pcb-fabrication/pcb-fabrication';
 import { Project } from '../../models/project.model';
 
 @Component({
@@ -15,10 +16,11 @@ import { Project } from '../../models/project.model';
     standalone: true,
     imports: [
         NgxExtendedPdfViewerModule,
-        FirmwareCardComponent
+        FirmwareCardComponent,
+        PcbFabricationComponent
     ],
     templateUrl: './weather-monitoring.html',
-    styleUrl: './weather-monitoring.css',
+    styleUrls: ['../case-study.css', './weather-monitoring.css'],
 
     preserveWhitespaces: true
 })
@@ -30,9 +32,8 @@ export class WeatherMonitoringComponent implements AfterViewInit {
 
     async ngAfterViewInit(): Promise<void> {
         // Query from the component's own host element rather than a single
-        // template ref, since this template has more than one top-level
-        // article (hardware + PCB fabrication), each with its own .mermaid
-        // diagrams.
+        // template ref. The embedded <app-pcb-fabrication> renders its own
+        // diagrams; the renderer skips any it has already claimed.
         await renderMermaidDiagrams(this.elementRef.nativeElement);
     }
 }
