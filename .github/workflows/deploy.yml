@@ -31,7 +31,7 @@ jobs:
       # (no CORS headers), so ship a copy with the site. Public repo: no token needed.
       - name: Fetch firmware from the weather-app release
         env:
-          WEATHER_APP_VERSION: v1.0.0
+          WEATHER_APP_VERSION: v1.1.0
         run: |
           curl -fsSL -o src/assets/firmware/weather-monitoring/weather-app.bin "https://github.com/dalilawini/weather-app/releases/download/${WEATHER_APP_VERSION}/weather-app.bin"
 
