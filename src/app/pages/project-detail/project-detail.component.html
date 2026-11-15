@@ -56,6 +56,15 @@
                 }
             </section>
         }
+        @case ('nafes-retail-system') {
+            <section class="case-study wrap">
+                @defer (on viewport) {
+                    <app-nafes-retail-system [project]="project" />
+                } @placeholder {
+                    <p class="loading">{{ i18n.t(text.loading) }}</p>
+                }
+            </section>
+        }
         @case ('light-switch') {
             <section class="case-study wrap">
                 @defer (on viewport) {

@@ -1,0 +1,904 @@
+<article class="cs-article">
+
+  <!-- HERO -->
+  <header class="hardware-hero">
+    <div class="hero-copy">
+      <p class="eyebrow">RETAIL SYSTEM · DEVICE DESIGN</p>
+      <h1>Nafes: a retail system for a perfume shop, from the device to the cloud</h1>
+      <p class="lead">
+        Point of sale, stock and loyalty for a shop with a central depot and several
+        shops. One Spring Boot backend serves three apps: a web admin, an Android app
+        for sellers and a desktop app for the shop PC. Two Bluetooth LE devices, a
+        wireless scanner and an oil scale, are in design.
+      </p>
+
+      <div class="tech-pills">
+        <span>Angular</span>
+        <span>Spring Boot</span>
+        <span>MySQL</span>
+        <span>Flutter</span>
+        <span>REST</span>
+        <span>ESP32</span>
+        <span>Bluetooth LE</span>
+        <span>FreeRTOS</span>
+        <span>HX711</span>
+      </div>
+    </div>
+
+    <div class="hero-flow">
+      <div class="flow-node">Devices<small>ESP32 + BLE (design)</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">3 apps<small>Web · Android · Desktop</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node accent">Backend<small>Spring Boot · MySQL</small></div>
+    </div>
+  </header>
+
+  <p class="part-label real">PART 1 · THE SYSTEM · WORKS TODAY</p>
+
+  <!-- THE SHOP -->
+  <section class="hardware-section">
+    <div class="section-heading">
+      <p class="eyebrow">01 / THE SHOP</p>
+      <h2>How a perfume shop really sells</h2>
+      <p>
+        A central depot supplies several shops. A perfume is a fragrance sold by flacon
+        size: the seller fills the flacon with fragrance oil and alcohol, so the system
+        must know how much oil each size uses. Regular clients have a QR card and get
+        rewards as they buy.
+      </p>
+    </div>
+
+    <div class="interface-grid">
+      <article class="interface-card">
+        <div class="interface-top">
+          <code>DEPOT → SHOPS</code>
+          <span class="status-dot"></span>
+        </div>
+        <h3>One depot, several shops</h3>
+        <p>The depot receives the goods and sends them to the shops by transfer. Each location has its own stock and its own minimums.</p>
+      </article>
+
+      <article class="interface-card">
+        <div class="interface-top">
+          <code>50 ml → 10 ml oil</code>
+          <span class="status-dot"></span>
+        </div>
+        <h3>Flacon sizes</h3>
+        <p>Each size stores its oil volume, so every sale takes the right amount of oil out of the stock. Flacon models are counted per size.</p>
+      </article>
+
+      <article class="interface-card">
+        <div class="interface-top">
+          <code>every 5th · every 10th</code>
+          <span class="status-dot"></span>
+        </div>
+        <h3>Clients and rewards</h3>
+        <p>The system counts every item a client buys. By default, every 5th item is 20 % off and every 10th is free. Clients carry a printed QR card or open it on their phone.</p>
+      </article>
+    </div>
+
+    <div class="engineering-note">
+      <span class="note-icon">⌁</span>
+      <div>
+        <strong>One barcode per fragrance, not per flacon</strong>
+        <p>
+          A sticker on every flacon was too slow and too costly, and a theft risk when
+          the seller turns away. So the seller scans the fragrance, then picks the size.
+          Each fragrance gets an in-store EAN-13 code when it is created, and its label
+          can be printed again from the stock page, one by one or in bulk.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- THREE APPS -->
+  <section class="hardware-section">
+    <div class="section-heading">
+      <p class="eyebrow">02 / THREE APPS, ONE BACKEND</p>
+      <h2>The office, the counter and the shop PC</h2>
+      <p>
+        The three apps share one REST API. The screenshots below come from the demo
+        database, with generated names and figures.
+      </p>
+    </div>
+
+    <div class="interaction-layout apps">
+      <article class="interaction-card">
+        <div class="interaction-number">A</div>
+        <div>
+          <h3>Web admin · Angular</h3>
+          <p>
+            A dashboard for all shops or one shop, the catalogue, stock actions (receive at
+            the depot, transfer to a shop, adjust, inventory by weight), clients, cards and
+            reward rules, label printing and a web caisse.
+          </p>
+          <div class="app-shots">
+            <figure class="wide">
+              <img src="assets/images/nafes/web-dashboard.webp" alt="Web admin dashboard with sales, average basket, sales by type, top fragrances and latest sales for all shops" width="1600" height="900" loading="lazy">
+              <figcaption>Dashboard, all shops, this month</figcaption>
+            </figure>
+            <figure>
+              <img src="assets/images/nafes/web-stock-by-location.webp" alt="Stock tab of the dashboard: stock of each item in the depot and in every shop, low quantities in red" width="1600" height="900" loading="lazy">
+              <figcaption>Stock per location</figcaption>
+            </figure>
+            <figure>
+              <img src="assets/images/nafes/web-transfer.webp" alt="Transfer T-0004 from the depot to a shop, counted by the shop: one flacon broken, one box missing, waiting for validation" width="1600" height="900" loading="lazy">
+              <figcaption>A transfer counted by the shop, waiting for validation</figcaption>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="interaction-card">
+        <div class="interaction-number">B</div>
+        <div>
+          <h3>Nafes Pro · Flutter, Android tablets</h3>
+          <p>
+            The caisse for sellers. The seller picks the fragrance from the list, scans
+            its barcode with the camera or types it, then picks the size, the flacon model
+            and the options. Open tickets are kept on the server, so a ticket can be put on
+            hold and taken back later.
+          </p>
+          <div class="app-shots pro">
+            <figure>
+              <img src="assets/images/nafes/pro-flacon.webp" alt="Nafes Pro: picking 50 ml and a flacon model for the fragrance Ambre Nuit" width="960" height="1060" loading="lazy">
+              <figcaption>Size, flacon and options</figcaption>
+            </figure>
+            <figure>
+              <img src="assets/images/nafes/pro-sale.webp" alt="Nafes Pro: confirming a sale of three items with a 20 % loyalty reward" width="1600" height="960" loading="lazy">
+              <figcaption>Checkout with a loyalty reward</figcaption>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="interaction-card">
+        <div class="interaction-number">C</div>
+        <div>
+          <h3>Shop PC · Spring Boot + Angular, offline first</h3>
+          <p>
+            One jar holds the backend and the Angular caisse, with its own MySQL on the PC.
+            It runs as a Windows service and opens in a kiosk window. It keeps selling with
+            no internet: each sale is written to an outbox in the same transaction, and a
+            sync job sends it to the cloud when the line is back.
+          </p>
+          <div class="app-shots single">
+            <figure>
+              <img src="assets/images/nafes/desktop-caisse.webp" alt="Shop PC caisse: fragrance grid with oil left for each, open ticket, and the sync status in the top bar" width="1600" height="900" loading="lazy">
+              <figcaption>The shop PC caisse, sync status in the top bar</figcaption>
+            </figure>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ARCHITECTURE -->
+  <section class="hardware-section">
+    <div class="section-heading">
+      <p class="eyebrow">03 / ARCHITECTURE</p>
+      <h2>One backend, many shops</h2>
+      <p>
+        The web admin and Nafes Pro call the cloud API directly. The shop PC runs its own
+        copy of the backend and keeps its database in step with the cloud.
+      </p>
+    </div>
+
+    <article class="architecture-card">
+      <div class="card-label">ARCHITECTURE</div>
+      <div class="mermaid">
+        flowchart LR
+        WEB["Web admin + caisse<br />Angular · Cloudflare Pages"]
+        PRO["Nafes Pro<br />Flutter · Android"]
+
+        subgraph Cloud["Cloud · demo hosting"]
+          API["REST API<br />Spring Boot · Render"]
+          DB[("MySQL<br />Aiven")]
+        end
+
+        subgraph PC["Shop PC"]
+          LOC["Spring Boot jar<br />Angular inside · kiosk"]
+          LDB[("Local MySQL")]
+          OUT["Outbox"]
+        end
+
+        WEB -->|"REST / JSON"| API
+        PRO -->|"REST / JSON"| API
+        API --> DB
+        API <-->|"sync every 60 s"| LOC
+        LOC --> LDB
+        LOC --> OUT
+
+        classDef app fill:#101d20,stroke:#78909c,color:#fff;
+        classDef core fill:#122a2a,stroke:#3ee6b0,color:#fff,stroke-width:2px;
+        classDef store fill:#263126,stroke:#a8c66c,color:#fff,stroke-width:2px;
+        classDef edge fill:#202027,stroke:#b9a7ff,color:#fff;
+
+        class WEB,PRO app;
+        class API,LOC core;
+        class DB,LDB store;
+        class OUT edge;
+      </div>
+    </article>
+
+    <div class="interface-grid">
+      <article class="interface-card">
+        <div class="interface-top">
+          <code>location_id</code>
+          <span class="status-dot"></span>
+        </div>
+        <h3>Per location</h3>
+        <p>Sales, open tickets, stock levels, stock movements, transfers and inventories. A seller works in one shop.</p>
+      </article>
+
+      <article class="interface-card">
+        <div class="interface-top">
+          <code>shared</code>
+          <span class="status-dot"></span>
+        </div>
+        <h3>Shared by every shop</h3>
+        <p>Catalogue, prices, reward rules and clients. A client earns rewards in any shop.</p>
+      </article>
+
+      <article class="interface-card">
+        <div class="interface-top">
+          <code>every 60 s</code>
+          <span class="status-dot"></span>
+        </div>
+        <h3>Shop PC sync</h3>
+        <p>Up: sales with their rewards and stock movements, new clients, card links. Down: catalogue, prices, reward rules, clients, this shop's transfers.</p>
+      </article>
+    </div>
+
+    <div class="engineering-note">
+      <span class="note-icon">⌁</span>
+      <div>
+        <strong>One brand, many locations</strong>
+        <p>
+          Nafes is one brand, not a multi-tenant product. There is one database and a
+          <code>locations</code> table (depot or shop). Data that belongs to a place carries
+          its location; data that a client sees in every shop is shared on purpose.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- KEY FLOWS -->
+  <section class="hardware-section">
+    <div class="section-heading">
+      <p class="eyebrow">04 / KEY FLOWS</p>
+      <h2>A sale and a transfer</h2>
+      <p>
+        The ticket is built on the server, so the reward the seller sees in the preview is
+        the same one the checkout applies. Payment is in cash.
+      </p>
+    </div>
+
+    <article class="diagram-card">
+      <div class="card-label">A SALE</div>
+      <div class="mermaid">
+        sequenceDiagram
+        autonumber
+        actor S as Seller
+        participant C as Caisse
+        participant B as Backend
+
+        S->>C: Scan the fragrance barcode
+        C->>C: Open the fragrance, pick 50 ml and a flacon
+        C->>B: Add the line to the open ticket
+        S->>C: Scan the client QR card, or search the client
+        C->>B: Preview the ticket for this client
+        B-->>C: 5th item, 20 % off
+        S->>C: Cash, Encaisser
+        C->>B: Checkout
+        B->>B: Save the sale, the stock movements and the client's count
+        B-->>C: Sale saved
+      </div>
+    </article>
+
+    <article class="diagram-card status-card">
+      <div class="card-label">A TRANSFER</div>
+      <div class="mermaid">
+        sequenceDiagram
+        actor A as Admin
+        participant B as Backend
+        actor S as Shop seller
+
+        A->>B: Draft a transfer, or build one from low stock
+        A->>B: Send
+        Note over B: Depot debited, status SENT
+        S->>B: Count: good, broken, missing, extra
+        Note over B: Shop credited with the good quantity, status COUNTED
+        opt counts look wrong
+          A->>B: Ask for a recount
+          S->>B: Count again, the difference is adjusted
+        end
+        A->>B: Validate: each missing item is a loss or goes back to the depot
+        Note over B: Status VALIDATED
+      </div>
+    </article>
+
+    <div class="engineering-note">
+      <span class="note-icon">⌁</span>
+      <div>
+        <strong>Low stock, and no double sale on a retry</strong>
+        <p>
+          An item below its location's minimum turns red, counts as an alert on the
+          dashboard and can be added to a draft transfer in one click. A sale is never
+          saved twice when the network retries: each shop PC sale has a UUID that the cloud
+          records on arrival, so a resent sale is answered <code>DUPLICATE</code>, and each
+          Nafes Pro checkout carries a request ID that is unique on the sale.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PART DIVIDER -->
+  <div class="part-divider">
+    <p class="part-label">PART 2 · DEVICES</p>
+    <span class="design-badge">DESIGN · IN DEVELOPMENT</span>
+    <p>
+      The apps work today. These two devices are my next step: the design is ready,
+      the prototypes are next.
+    </p>
+  </div>
+
+  <!-- WHY DEVICES -->
+  <section class="hardware-section">
+    <div class="section-heading">
+      <span class="design-badge">DESIGN · IN DEVELOPMENT</span>
+      <p class="eyebrow">05 / WHY DEVICES</p>
+      <h2>Two slow steps at the counter</h2>
+      <p>
+        Scanning with a tablet camera is slow at a busy counter: the seller has to aim the
+        tablet at the label. And during an inventory, the seller weighs each oil bottle and
+        types the weight by hand. Two small Bluetooth devices are planned to remove both steps.
+      </p>
+    </div>
+
+    <div class="feature-grid">
+      <article class="feature-card">
+        <span class="feature-index">01</span>
+        <h3>Few app changes</h3>
+        <p>The scanner will type like a keyboard, which the web caisse and the shop PC already accept.</p>
+      </article>
+
+      <article class="feature-card">
+        <span class="feature-index">02</span>
+        <h3>Local radio</h3>
+        <p>Bluetooth LE from the device to the tablet or PC next to it. No internet needed.</p>
+      </article>
+
+      <article class="feature-card">
+        <span class="feature-index">03</span>
+        <h3>Cheap, local parts</h3>
+        <p>An ESP32 board and common modules that can be bought in Tunisia.</p>
+      </article>
+
+      <article class="feature-card">
+        <span class="feature-index">04</span>
+        <h3>Simple for sellers</h3>
+        <p>One button, a beep and an LED. Nothing to set up at the counter.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- NAFES SCAN -->
+  <section class="hardware-section">
+    <div class="section-heading">
+      <span class="design-badge">DESIGN · IN DEVELOPMENT</span>
+      <p class="eyebrow">06 / NAFES SCAN</p>
+      <h2>A wireless barcode and QR scanner</h2>
+      <p>
+        A 2D scanner module reads the fragrance barcode or the client QR card and passes
+        the code over UART to an ESP32, which sends it over Bluetooth LE.
+      </p>
+    </div>
+
+    <article class="architecture-card">
+      <div class="card-label">BLOCK DIAGRAM</div>
+      <div class="mermaid">
+        flowchart LR
+        MOD["2D scanner module<br />1D + QR · UART TTL"]
+        LS["Level shifter<br />BSS138, if 5 V logic"]
+        ESP["ESP32-WROOM-32E<br />FreeRTOS · NimBLE"]
+        BTN["Trigger button"]
+        UI["Buzzer + LED"]
+        USB["USB-C 5 V"]
+        A["Web caisse<br />Shop PC"]
+        P["Nafes Pro"]
+
+        MOD -->|"UART 9600 8N1"| LS --> ESP
+        BTN --> ESP
+        ESP --> UI
+        USB --> ESP
+        ESP -->|"Mode A · BLE keyboard"| A
+        ESP -->|"Mode B · Nafes Scan Service"| P
+
+        classDef hw fill:#101d20,stroke:#78909c,color:#fff;
+        classDef mcu fill:#122a2a,stroke:#3ee6b0,color:#fff,stroke-width:2px;
+        classDef app fill:#202027,stroke:#b9a7ff,color:#fff;
+
+        class MOD,LS,BTN,UI,USB hw;
+        class ESP mcu;
+        class A,P app;
+      </div>
+    </article>
+
+    <div class="interface-grid">
+      <article class="interface-card">
+        <div class="interface-top">
+          <code>ESP32-DevKitC</code>
+          <span class="status-dot"></span>
+        </div>
+        <h3>ESP32-WROOM-32E</h3>
+        <p>The classic ESP32, with Bluetooth Classic and BLE. Not the ESP32-S2, which has no Bluetooth.</p>
+      </article>
+
+      <article class="interface-card">
+        <div class="interface-top">
+          <code>UART TTL</code>
+          <span class="status-dot"></span>
+        </div>
+        <h3>2D scanner module</h3>
+        <p>Reads 1D barcodes (the fragrance EAN-13) and QR codes (the client card).</p>
+      </article>
+
+      <article class="interface-card">
+        <div class="interface-top">
+          <code>BSS138 · 4 ch</code>
+          <span class="status-dot"></span>
+        </div>
+        <h3>Level shifter</h3>
+        <p>Bidirectional, in case the module uses 5 V logic: the ESP32 pins are not 5 V tolerant.</p>
+      </article>
+
+      <article class="interface-card">
+        <div class="interface-top">
+          <code>GPIO</code>
+          <span class="status-dot"></span>
+        </div>
+        <h3>Button, buzzer, LED</h3>
+        <p>A trigger button, a beep for each code sent and a status LED, as planned.</p>
+      </article>
+
+      <article class="interface-card">
+        <div class="interface-top">
+          <code>5 V</code>
+          <span class="status-dot"></span>
+        </div>
+        <h3>Power</h3>
+        <p>USB-C 5 V for version 1. A Li-ion cell and a charger are planned for version 2.</p>
+      </article>
+
+      <article class="interface-card">
+        <div class="interface-top">
+          <code>Pin map</code>
+          <span class="status-dot"></span>
+        </div>
+        <h3>Planned wiring</h3>
+        <div class="signal-list">
+          <div><code>GPIO16</code><span>RX2 ← scanner TX</span></div>
+          <div><code>GPIO17</code><span>TX2 → scanner RX</span></div>
+          <div><code>GPIO27</code><span>Trigger button</span></div>
+          <div><code>GPIO26</code><span>Buzzer</span></div>
+          <div><code>GPIO2</code><span>LED</span></div>
+        </div>
+      </article>
+    </div>
+    <p>UART at 9600 8N1, the usual module default, to be confirmed on the chosen module.</p>
+
+    <div class="feature-grid">
+      <article class="feature-card featured">
+        <span class="feature-index">01</span>
+        <h3>Firmware pipeline</h3>
+        <p>ESP-IDF in C, FreeRTOS tasks and the NimBLE stack.</p>
+        <div class="sequence">
+          <span>RECEIVE</span>
+          <b>→</b>
+          <span>FRAME</span>
+          <b>→</b>
+          <span>FILTER</span>
+          <b>→</b>
+          <span>SEND</span>
+          <b>→</b>
+          <span>BEEP</span>
+        </div>
+        <p>
+          The UART task will frame one code on CR/LF, or after 50 ms of silence. The filter
+          will trim it, check it (printable, 1 to 256 characters) and drop the same code
+          repeated within 1.5 s. The BLE task then sends it. The framing and filter logic will
+          have no ESP-IDF dependency, so it can be unit-tested on a PC.
+        </p>
+      </article>
+
+      <article class="feature-card">
+        <span class="feature-index">02</span>
+        <h3>Mode A · BLE keyboard (default)</h3>
+        <p>
+          The scanner will type the code and Enter, like a USB scanner. The apps side already
+          works today in the web caisse and on the shop PC: their scan detector takes 13 digits
+          typed less than 50 ms apart, then Enter, with no field selected. So the firmware
+          must send each key well within 50 ms. A keyboard sends key positions, not
+          characters, so on an AZERTY PC the digit row arrives as <code>&amp;é"'(</code>…,
+          which the caisse already maps back to digits.
+        </p>
+        <p>
+          In Nafes Pro, typed codes work today only when the product search box is selected.
+          Client QR cards go through the client search field in every app.
+        </p>
+      </article>
+
+      <article class="feature-card">
+        <span class="feature-index">03</span>
+        <h3>Mode B · Nafes Scan Service (planned fix)</h3>
+        <p>A custom 128-bit service, so Nafes Pro will receive every scan without a selected field.</p>
+        <div class="signal-list">
+          <div><code>Scan</code><span>notify · UTF-8 code, up to 244 bytes (MTU 247)</span></div>
+          <div><code>Status</code><span>read, notify · uint8: bit0 module OK, bit1 mode B</span></div>
+          <div><code>0x180A</code><span>Device Information</span></div>
+          <div><code>0x180F</code><span>Battery</span></div>
+        </div>
+        <p>Holding the button at boot will switch the mode, saved in NVS.</p>
+      </article>
+    </div>
+
+    <article class="diagram-card status-card">
+      <div class="card-label">A SALE WITH NAFES SCAN</div>
+      <div class="mermaid">
+        sequenceDiagram
+        autonumber
+        actor S as Seller
+        participant N as Nafes Scan
+        participant C as Caisse
+
+        Note over C: Web caisse or shop PC
+        S->>N: Press the trigger on the fragrance label
+        N->>C: Mode A: 13 digits and Enter, keys under 50 ms apart
+        C->>C: Valid EAN-13, open the fragrance
+        S->>C: Pick the size and the flacon
+        S->>C: Select the client search field
+        S->>N: Scan the client QR card
+        N->>C: Card code typed into the client search
+        C->>C: Client found, reward preview
+        S->>C: Cash, checkout
+        Note over N,C: Planned, Mode B: Nafes Pro subscribes to Scan and needs no selected field
+      </div>
+    </article>
+
+    <article class="diagram-card status-card">
+      <div class="card-label">DEVICE STATES</div>
+      <div class="mermaid">
+        stateDiagram-v2
+        direction LR
+        [*] --> BOOT
+        BOOT --> ADVERTISING
+        ADVERTISING --> READY: connected
+        READY --> SCANNING: trigger
+        SCANNING --> SENT: code framed
+        SENT --> READY: beep
+        READY --> ADVERTISING: disconnected
+        BOOT --> ERROR: module error
+        ERROR --> [*]: LED blinks
+      </div>
+    </article>
+  </section>
+
+  <!-- NAFES SCALE -->
+  <section class="hardware-section">
+    <div class="section-heading">
+      <span class="design-badge">DESIGN · IN DEVELOPMENT</span>
+      <p class="eyebrow">07 / NAFES SCALE</p>
+      <h2>An oil-bottle scale for the inventory</h2>
+      <p>
+        <strong>Inventory by weight works today.</strong> Each oil bottle in a shop has its
+        own sticker and a stored empty weight. The seller scans the sticker, weighs the
+        bottle and types the weight; the app turns it into millilitres of oil.
+        <strong>The scale is the design part:</strong> the stable weight will arrive over
+        Bluetooth instead of being typed.
+      </p>
+    </div>
+
+    <article class="architecture-card">
+      <div class="card-label">BLOCK DIAGRAM</div>
+      <div class="mermaid">
+        flowchart LR
+        LC["5 kg bar load cell<br />top + base plates"]
+        HX["HX711<br />24-bit ADC"]
+        ESP["ESP32-WROOM-32E<br />FreeRTOS · NimBLE"]
+        TARE["TARE button"]
+        LED["LED"]
+        USB["USB-C 5 V"]
+        APP["Inventory screen<br />Web · Nafes Pro · Shop PC"]
+
+        LC -->|"bridge"| HX -->|"DOUT / SCK"| ESP
+        TARE --> ESP
+        ESP --> LED
+        USB --> ESP
+        ESP -->|"Nafes Scale Service"| APP
+
+        classDef hw fill:#101d20,stroke:#78909c,color:#fff;
+        classDef mcu fill:#122a2a,stroke:#3ee6b0,color:#fff,stroke-width:2px;
+        classDef app fill:#202027,stroke:#b9a7ff,color:#fff;
+
+        class LC,HX,TARE,LED,USB hw;
+        class ESP mcu;
+        class APP app;
+      </div>
+    </article>
+
+    <div class="interface-grid">
+      <article class="interface-card">
+        <div class="interface-top">
+          <code>ESP32-DevKitC</code>
+          <span class="status-dot"></span>
+        </div>
+        <h3>Parts</h3>
+        <p>ESP32-WROOM-32E board, a 5 kg bar load cell with top and base plates, an HX711 module, a TARE button, an LED and USB-C 5 V.</p>
+      </article>
+
+      <article class="interface-card">
+        <div class="interface-top">
+          <code>Pin map</code>
+          <span class="status-dot"></span>
+        </div>
+        <h3>Planned wiring</h3>
+        <div class="signal-list">
+          <div><code>GPIO32</code><span>HX711 DOUT</span></div>
+          <div><code>GPIO33</code><span>HX711 SCK</span></div>
+          <div><code>GPIO27</code><span>TARE, pull-up</span></div>
+          <div><code>GPIO2</code><span>LED</span></div>
+        </div>
+      </article>
+
+      <article class="interface-card">
+        <div class="interface-top">
+          <code>ml = net ÷ density</code>
+          <span class="status-dot"></span>
+        </div>
+        <h3>The math (already in the app)</h3>
+        <p>Net = weight − the bottle's empty weight. Millilitres = net ÷ the fragrance's density, 0.95 g/ml by default and set per fragrance.</p>
+      </article>
+    </div>
+
+    <div class="feature-grid">
+      <article class="feature-card featured">
+        <span class="feature-index">01</span>
+        <h3>Signal chain</h3>
+        <div class="sequence">
+          <span>LOAD CELL</span>
+          <b>→</b>
+          <span>HX711</span>
+          <b>→</b>
+          <span>AVERAGE</span>
+          <b>→</b>
+          <span>STABLE?</span>
+          <b>→</b>
+          <span>BLE</span>
+        </div>
+        <p>
+          A bit-banged driver will read channel A at gain 128, 10 samples per second, and keep
+          SCK high for less than 60 µs, or the HX711 powers down. A moving average of 8
+          samples will smooth the reading. The weight is <strong>stable</strong> when 10 readings
+          stay within ±1 g. An overload flag is set above 5 kg. Calibration will use a known
+          mass, e.g. 500 g, and save the factor in NVS.
+        </p>
+      </article>
+
+      <article class="feature-card">
+        <span class="feature-index">02</span>
+        <h3>Nafes Scale Service</h3>
+        <p>A custom 128-bit GATT service.</p>
+        <div class="signal-list">
+          <div><code>Weight</code><span>notify, 5 per second · 7 bytes, little-endian</span></div>
+          <div><code>int32</code><span>weight in 0.1 g</span></div>
+          <div><code>uint8</code><span>flags: bit0 stable, bit1 overload, bit2 tared</span></div>
+          <div><code>uint16</code><span>sequence number</span></div>
+        </div>
+      </article>
+
+      <article class="feature-card">
+        <span class="feature-index">03</span>
+        <h3>Commands and config</h3>
+        <div class="signal-list">
+          <div><code>0x01</code><span>TARE</span></div>
+          <div><code>0x02</code><span>CALIBRATE + int32 mass in 0.1 g</span></div>
+          <div><code>0x03</code><span>RESET_CAL</span></div>
+          <div><code>Config</code><span>read · capacity, resolution, firmware version</span></div>
+        </div>
+        <p>The Command characteristic will accept writes from bonded devices only.</p>
+      </article>
+    </div>
+
+    <article class="diagram-card status-card">
+      <div class="card-label">INVENTORY BY WEIGHT</div>
+      <div class="mermaid">
+        sequenceDiagram
+        autonumber
+        actor S as Seller
+        participant A as App
+        participant W as Nafes Scale
+        participant B as Backend
+
+        S->>A: Open the inventory, sales pause in this shop
+        S->>A: Scan the bottle sticker
+        A->>A: Bottle found: fragrance and empty weight
+        S->>W: Put the bottle on the scale
+        W-->>A: Weight, 5 times per second
+        W-->>A: Stable flag set
+        A->>A: ml = (weight − empty) ÷ density
+        A->>B: Save the inventory line
+        Note over S,B: Today the seller types the weight at step 5. The scale removes that step.
+        Note over A,B: The admin compares system and counted stock, then validates
+      </div>
+    </article>
+
+    <div class="engineering-note">
+      <span class="note-icon">⌁</span>
+      <div>
+        <strong>What exists, what is designed</strong>
+        <p>
+          Works today: bottle stickers, the empty weight of each bottle, the density of each
+          fragrance, a blind count for sellers, a report of system against counted stock and
+          a validation that writes the stock differences. Designed: the weight over
+          Bluetooth, the stable flag, tare and calibration commands, and one small app
+          feature, setting a bottle's empty weight straight from the scale.
+        </p>
+      </div>
+    </div>
+
+    <article class="diagram-card status-card">
+      <div class="card-label">SCALE STATES</div>
+      <div class="mermaid">
+        stateDiagram-v2
+        direction LR
+        [*] --> EMPTY
+        EMPTY --> SETTLING: bottle placed
+        SETTLING --> STABLE: 10 readings within 1 g
+        STABLE --> SETTLING: weight moves
+        STABLE --> EMPTY: bottle removed
+        SETTLING --> OVERLOAD: above 5 kg
+        OVERLOAD --> EMPTY: load removed
+        EMPTY --> CALIBRATING: CALIBRATE command
+        CALIBRATING --> EMPTY: factor saved
+      </div>
+    </article>
+  </section>
+
+  <!-- SECURITY & RELIABILITY -->
+  <section class="hardware-section">
+    <div class="section-heading">
+      <span class="design-badge">DESIGN · IN DEVELOPMENT</span>
+      <p class="eyebrow">08 / SECURITY &amp; RELIABILITY</p>
+      <h2>Designed to stay out of the seller's way</h2>
+      <p>A device that drops a scan or loses its settings costs a sale. The design plans for both.</p>
+    </div>
+
+    <div class="interface-grid">
+      <article class="interface-card">
+        <div class="interface-top">
+          <code>LE Secure Connections</code>
+          <span class="status-dot"></span>
+        </div>
+        <h3>Pairing and bonding</h3>
+        <p>Only bonded devices will be able to write commands to the scale.</p>
+      </article>
+
+      <article class="interface-card">
+        <div class="interface-top">
+          <code>1.5 s</code>
+          <span class="status-dot"></span>
+        </div>
+        <h3>Duplicate filter</h3>
+        <p>The same code read twice within 1.5 s will be sent once.</p>
+      </article>
+
+      <article class="interface-card">
+        <div class="interface-top">
+          <code>Reconnect</code>
+          <span class="status-dot"></span>
+        </div>
+        <h3>Back on its own</h3>
+        <p>The device will reconnect to the last bonded tablet or PC after a power cut.</p>
+      </article>
+
+      <article class="interface-card">
+        <div class="interface-top">
+          <code>NVS</code>
+          <span class="status-dot"></span>
+        </div>
+        <h3>Settings survive power cuts</h3>
+        <p>The scanner mode, the bond and the scale's calibration factor will be kept in flash.</p>
+      </article>
+
+      <article class="interface-card">
+        <div class="interface-top">
+          <code>Watchdog</code>
+          <span class="status-dot"></span>
+        </div>
+        <h3>No blocking</h3>
+        <p>Watchdog-friendly tasks, and no blocking work inside BLE callbacks.</p>
+      </article>
+
+      <article class="interface-card">
+        <div class="interface-top">
+          <code>Version 2</code>
+          <span class="status-dot"></span>
+        </div>
+        <h3>Signed updates</h3>
+        <p>Planned: over-the-air updates with a signature check, and secure boot.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- STATUS & NEXT STEPS -->
+  <section class="hardware-section final-section">
+    <div class="section-heading">
+      <p class="eyebrow">09 / STATUS &amp; NEXT STEPS</p>
+      <h2>From the counter to the report</h2>
+      <p>The last four steps work today. The first two are the devices in design.</p>
+    </div>
+
+    <article class="end-to-end">
+      <div class="e2e-step design">
+        <span>01</span>
+        <strong>SCAN</strong>
+        <small>Nafes Scan · design</small>
+      </div>
+      <div class="e2e-line"></div>
+      <div class="e2e-step design">
+        <span>02</span>
+        <strong>WEIGH</strong>
+        <small>Nafes Scale · design</small>
+      </div>
+      <div class="e2e-line"></div>
+      <div class="e2e-step">
+        <span>03</span>
+        <strong>SELL</strong>
+        <small>Three apps</small>
+      </div>
+      <div class="e2e-line"></div>
+      <div class="e2e-step">
+        <span>04</span>
+        <strong>STOCK</strong>
+        <small>Movements, transfers</small>
+      </div>
+      <div class="e2e-line"></div>
+      <div class="e2e-step">
+        <span>05</span>
+        <strong>SYNC</strong>
+        <small>Shop PC outbox</small>
+      </div>
+      <div class="e2e-line"></div>
+      <div class="e2e-step">
+        <span>06</span>
+        <strong>REPORT</strong>
+        <small>Dashboard</small>
+      </div>
+    </article>
+
+    <ul class="status-list">
+      <li>✅ <strong>Apps working:</strong> web admin, Nafes Pro on Android and the shop PC, with offline selling and sync on the shop PC.</li>
+      <li>🧩 <strong>Devices designed:</strong> Nafes Scan and Nafes Scale, hardware, firmware and BLE protocol.</li>
+      <li>⏭ <strong>Next:</strong> prototypes, host unit tests for the firmware logic, and a real scanner tried on all three apps.</li>
+      <li>
+        🎯 <strong>Acceptance criteria (planned):</strong> 50 scans in a row (fragrance barcodes
+        and client QR cards) with no miss · scale error within 2 g with 3 known masses ·
+        stable flag in under 2 s · reconnect on its own after a power cut.
+      </li>
+    </ul>
+
+    <div class="engineering-note">
+      <span class="note-icon">⌁</span>
+      <div>
+        <strong>Design principles</strong>
+        <p>
+          One job per module. Pure logic that can be tested on a PC. The device never blocks
+          the seller. And the scanner reuses the keyboard input the web caisse and the shop
+          PC already have, so the apps change as little as possible.
+        </p>
+      </div>
+    </div>
+  </section>
+</article>
