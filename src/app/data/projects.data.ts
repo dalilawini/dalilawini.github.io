@@ -51,7 +51,7 @@ export const PROJECTS: Project[] = [
         featured: true,
         github: 'https://github.com/dalilawini/weather-app',
         videoUrl: 'https://www.youtube.com/watch?v=px7SQt1Efc0',
-        imageUrl: 'assets/images/pcb-3d.webp',
+        imageUrl: 'assets/images/weather_station_pro_card.jpg',
         firmware: 'assets/firmware/weather-monitoring/manifest.json',
         firmwareBoard: 'ESP8266'
     },

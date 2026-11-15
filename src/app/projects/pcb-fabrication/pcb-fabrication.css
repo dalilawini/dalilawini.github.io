@@ -43,6 +43,19 @@
   justify-content: center;
 }
 
+/* Complete pipeline: photo of the finished, soldered board */
+.final-board {
+  margin-top: 15px;
+  padding-top: 48px;
+}
+
+.final-board img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+}
+
 @media (max-width: 800px) {
   .split {
     grid-template-columns: 1fr;

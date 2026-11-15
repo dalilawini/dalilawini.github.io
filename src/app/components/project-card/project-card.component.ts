@@ -53,7 +53,7 @@ import { Project } from '../../models/project.model';
         .project:hover { border-color: var(--line-3); box-shadow: 0 16px 36px rgba(0,0,0,.35) }
         .project.linked:hover { transform: translateY(-4px); border-color: var(--accent) }
         .project:has(.card-link:focus-visible) { outline: 2px solid var(--accent); outline-offset: 3px }
-        .thumb { margin: -22px -22px 6px; aspect-ratio: 16 / 8; overflow: hidden; border-radius: var(--radius) var(--radius) 0 0; border-bottom: 1px solid var(--line-2); background: #0d1012 }
+        .thumb { margin: -22px -22px 6px; aspect-ratio: 3 / 2; overflow: hidden; border-radius: var(--radius) var(--radius) 0 0; border-bottom: 1px solid var(--line-2); background: #0d1012 }
         .thumb img { display: block; width: 100%; height: 100%; object-fit: cover }
         .head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px }
         .p-num { flex-shrink: 0; margin-top: -4px; font-family: var(--mono); font-size: 34px; font-weight: 500; line-height: 1; color: transparent; -webkit-text-stroke: 1px #2f383c }
