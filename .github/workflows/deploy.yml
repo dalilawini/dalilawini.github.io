@@ -61,6 +61,20 @@ jobs:
           echo "dir=$DIR" >> "$GITHUB_OUTPUT"
           echo "Publishing $DIR"
 
+      # Deep links like /projects/<slug> would otherwise be served by 404.html with
+      # HTTP 404, which breaks link previews (LinkedIn, etc.). Pages serves /projects/<slug>
+      # from projects/<slug>.html with HTTP 200 and no redirect.
+      - name: Add a page per project for HTTP 200 deep links
+        run: |
+          DIR="${{ steps.out.outputs.dir }}"
+          SLUGS=$(awk -F"'" '/slug:/ {slug=$2} /hasDetail: true/ {print slug}' src/app/data/projects.data.ts)
+          [ -z "$SLUGS" ] && { echo "No project with a detail page found"; exit 1; }
+          mkdir -p "$DIR/projects"
+          for SLUG in $SLUGS; do
+            cp "$DIR/index.html" "$DIR/projects/$SLUG.html"
+            echo "projects/$SLUG.html"
+          done
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ${{ steps.out.outputs.dir }}
