@@ -38,6 +38,24 @@ export const PROJECTS: Project[] = [
         hasDetail: false
     },
     {
+        slug: 'nafes-retail-system',
+        category: 'perso',
+        meta: { en: 'Personal · Retail system + IoT', fr: 'Personnel · Système de vente + IoT' },
+        title: {
+            en: 'Nafes: Retail System for a Perfume Shop, from Device to Cloud',
+            fr: "Nafes : système de vente pour une parfumerie, de l'appareil au cloud"
+        },
+        description: {
+            en: 'Point of sale, stock and loyalty for a perfume shop with a central depot and several shops: one Spring Boot backend, three apps (web, Android, desktop), and two Bluetooth LE devices in design.',
+            fr: "Caisse, stock et fidélité pour une parfumerie avec un dépôt central et plusieurs boutiques : un backend Spring Boot, trois applications (web, Android, desktop) et deux appareils Bluetooth LE en conception."
+        },
+        tags: ['Angular', 'Spring Boot', 'MySQL', 'Flutter', 'ESP32', 'Bluetooth LE', 'FreeRTOS', 'HX711'],
+        hasDetail: true,
+        videoUrl: 'assets/videos/nafes-retail-system/nafes-showcase.mp4',
+        videoPoster: 'assets/videos/nafes-retail-system/nafes-showcase-poster.webp',
+        imageUrl: 'assets/images/nafes/nafes-card.webp'
+    },
+    {
         slug: 'weather-monitoring',
         category: 'perso',
         meta: { en: 'Personal · IoT', fr: 'Personnel · IoT' },

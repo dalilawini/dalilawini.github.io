@@ -1,0 +1,147 @@
+/* Nafes-only additions; the shared case-study layout lives in ../case-study.css. */
+
+/* "DESIGN · IN DEVELOPMENT" badge, on every Part 2 heading and on the part divider */
+.design-badge {
+  display: inline-block;
+  margin: 0 0 14px;
+  padding: 4px 10px;
+  border: 1px solid var(--hw-purple);
+  border-radius: 999px;
+  color: var(--hw-purple);
+  font-family: var(--mono);
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  white-space: nowrap;
+}
+
+/* Divider between Part 1 (works today) and Part 2 (devices in design) */
+.part-divider {
+  margin: 0 0 70px;
+  padding: 28px 30px;
+  border: 1px dashed rgba(185, 167, 255, .45);
+  border-radius: var(--radius);
+  background: rgba(185, 167, 255, .04);
+}
+
+.part-divider .part-label {
+  margin: 0 0 10px;
+  color: var(--hw-text);
+  font-family: var(--mono);
+  font-size: .85rem;
+  font-weight: 700;
+  letter-spacing: .18em;
+}
+
+.part-divider p:last-child {
+  margin-bottom: 0;
+}
+
+.part-label.real {
+  margin-bottom: 30px;
+  color: var(--hw-accent);
+  font-family: var(--mono);
+  font-size: .85rem;
+  font-weight: 700;
+  letter-spacing: .18em;
+}
+
+/* Three apps: one full-width card each, text then screenshots */
+.interaction-layout.apps {
+  grid-template-columns: 1fr;
+}
+
+.app-shots {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.app-shots .wide {
+  grid-column: 1 / -1;
+}
+
+.app-shots.single {
+  grid-template-columns: 1fr;
+}
+
+.app-shots.pro {
+  grid-template-columns: minmax(0, .62fr) minmax(0, 1fr);
+  align-items: start;
+}
+
+.app-shots img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--hw-border);
+  border-radius: 6px;
+}
+
+.app-shots figcaption {
+  margin-top: 6px;
+  color: var(--hw-muted);
+  font-size: .75rem;
+}
+
+.app-shots figure {
+  margin: 0;
+}
+
+/* Part 2 block diagrams sit next to their parts list */
+.status-card {
+  margin-top: 14px;
+}
+
+.interface-top code {
+  overflow-wrap: anywhere;
+}
+
+.signal-list code {
+  flex-shrink: 0;
+}
+
+.signal-list span {
+  text-align: right;
+}
+
+.status-list {
+  display: grid;
+  gap: 8px;
+  margin: 15px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.status-list li {
+  padding: 12px 16px;
+  border: 1px solid var(--hw-border);
+  background: var(--hw-surface);
+  color: var(--hw-muted);
+  font-size: .9rem;
+}
+
+.e2e-step.design strong {
+  color: var(--hw-purple);
+}
+
+@media (max-width: 650px) {
+  .app-shots,
+  .app-shots.pro {
+    grid-template-columns: 1fr;
+  }
+
+  .interaction-layout.apps .interaction-card {
+    grid-template-columns: 1fr;
+  }
+
+  .signal-list div {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .signal-list span {
+    text-align: left;
+  }
+}

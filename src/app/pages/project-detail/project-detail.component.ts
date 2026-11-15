@@ -8,6 +8,7 @@ import { findProject } from '../../data/projects.data';
 import { WeatherMonitoringComponent } from '../../projects/weather-monitoring/weather-monitoring';
 import { IotNetworkGatewayComponent } from '../../projects/iot-network-gateway/iot-network-gateway';
 import { LightSwitchComponent } from '../../projects/light-switch/light-switch';
+import { NafesRetailSystemComponent } from '../../projects/nafes-retail-system/nafes-retail-system';
 const TEXT = {
     back: { en: '← Back to projects', fr: '← Retour aux projets' },
     eyebrow: { en: 'ENGINEERING CASE STUDY', fr: "ÉTUDE DE CAS D'INGÉNIERIE" },
@@ -30,7 +31,7 @@ type Media =
 
 @Component({
     selector: 'app-project-detail',
-    imports: [RouterLink, WeatherMonitoringComponent, IotNetworkGatewayComponent, LightSwitchComponent],
+    imports: [RouterLink, WeatherMonitoringComponent, IotNetworkGatewayComponent, LightSwitchComponent, NafesRetailSystemComponent],
     templateUrl: './project-detail.component.html',
     styleUrl: './project-detail.component.scss'
 })
